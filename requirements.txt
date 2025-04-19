@@ -2,3 +2,4 @@ discord.py
 flask
 asyncpg
 pynacl
+imageio-ffmpeg

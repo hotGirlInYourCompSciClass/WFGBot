@@ -413,6 +413,24 @@ async def listbanned(interaction: discord.Interaction):
         await interaction.response.send_message(f"Banned words: {', '.join(banned_words)}")
 
 
+@bot.tree.command(name="joinvc", description="bot joins vc and does nothing")
+async def join(interaction: discord.Interaction):
+    if interaction.user.voice:
+        channel = interaction.user.voice.channel
+        await channel.connect()
+        await interaction.response.send_message(f"joined {channel.name}")
+    else:
+        await interaction.response.send_message("you're not in a vc")
+
+@bot.tree.command(name="leave", description="make bot leave the vc if cameron's getting pissy")
+async def leave(interaction: discord.Interaction):
+    if interaction.guild.voice_client:
+        await interaction.guild.voice_client.disconnect()
+        await interaction.response.send_message("k bye")
+    else:
+        await interaction.response.send_message("not in a vc mate")
+
+
 
 
 

@@ -118,7 +118,7 @@ bot = commands.Bot(command_prefix="!", intents=intents)
 
 
 #auto turnoff
-start_time = datetime.utcnow()
+start_time = datetime.datetime.now(datetime.timezone.utc)
 
 
 count_file = "jarvis_count.txt"
@@ -134,7 +134,7 @@ else:
 @bot.event
 async def on_ready():
     print(f"Logged in as {bot.user}")
-    current_time = datetime.now(datetime.UTC)
+    current_time = datetime.datetime.now(datetime.timezone.utc)
 
     desired_start_time = current_time.replace(hour=7, minute=0, second=0, microsecond=0)
 

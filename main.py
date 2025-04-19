@@ -157,6 +157,10 @@ async def on_ready():
     await bot.tree.sync()
 @bot.event
 async def on_message_delete(message):
+    if message.author == bot.user:
+        return
+
+    
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     with open("deleted_messages.txt", "a", encoding="utf-8") as f:
         f.write(f"\n[{timestamp}] {message.author} deleted '{message.content}' in '#{message.channel}'\n")

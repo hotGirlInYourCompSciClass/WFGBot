@@ -8,22 +8,20 @@ import re
 from datetime import datetime, timedelta, timezone
 import asyncpg
 
-
+#database init
 db = None
 
-
-
-
+#discord token from .env
 token = os.getenv("DISCORD_TOKEN")
 
-#Features
+#Features docs
 features = """**COUNTER**
 if jarvis is mentioned add 1 to jarvis_count.txt
 up to and including 3 jarvi can be in one message
 if there are more than 3 the message is deleted and the jarvi are not counted
 if cameron says jarvis it deletes the message and says "Cameron you're ruinin'it" then deletes that after 3 seconds
 
-also if someone says "mraow" it sends a random cat gif from a selection of 10 or 1/100 chance for secret gif :shushing_face:
+also if someone says any sort of cat noise it sends a random cat gif from a selection of 10 or 1/100 chance for secret gif :shushing_face:
 
 **COMMANDS**
 /jarviscommand - repeats what you say to it
@@ -42,7 +40,7 @@ if you use a dead name the message gets deleted and the bot sends your message b
 (unless you say george because cameron is pissy like that)
 
 **UPTIME**
-*should* turn on at 8am every day adn turn off 15 hours later"""
+*should* turn on at 8am every day and turn off 15 hours later"""
 
 
 #meowlist

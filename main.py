@@ -443,11 +443,15 @@ async def leave(interaction: discord.Interaction):
 
 @bot.tree.command(name="vcplay", description="Play a sound in VC")
 @app_commands.describe(filename="Pick a file to play")
-async def vcplay(interaction: discord.Interaction, filename: str):
+sync def vcplay(interaction: discord.Interaction, filename: str):
+    # join VC
+    if interaction.user.voice and interaction.user.voice.channel:
+        vc = await interaction.user.voice.channel.connect()
+        vc.play(discord.FFmpegPCMAudio(source=f"sounds/{filename}"))
 
-    vc.play(discord.FFmpegPCMAudio(source=f"sounds/{filename}"))
-
-    await interaction.response.send_message(f"Playing: `{filename}`")
+        await interaction.response.send_message(f"Playing: `{filename}`")
+    else:
+        await interaction.response.send_message("You're not in a voice channel", ephemeral=True)
 
 
 

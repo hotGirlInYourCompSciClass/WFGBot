@@ -5,7 +5,7 @@ import os
 import asyncio
 import random
 import re
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 
 
 
@@ -119,7 +119,9 @@ bot = commands.Bot(command_prefix="!", intents=intents)
 
 
 #auto turnoff
-start_time = datetime.now(datetime.timezone.utc)
+utc = timezone(timedelta(0))
+start_time = datetime.now(utc)
+print("Current time in UTC:", start_time)
 
 
 count_file = "jarvis_count.txt"

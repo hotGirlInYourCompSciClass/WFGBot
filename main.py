@@ -7,8 +7,7 @@ import random
 import re
 from datetime import datetime, timedelta, timezone
 import asyncpg
-import imageio_ffmpeg
-from discord import FFmpegPCMAudio
+
 
 db = None
 
@@ -442,19 +441,18 @@ async def leave(interaction: discord.Interaction):
     else:
         await interaction.response.send_message("not in a vc mate")
 
-@bot.tree.command(name="vcplay", description="Play a file from the repo.")
-@bot.app_commands.describe(filename="The audio file to play")
+@bot.tree.command(name="vcplay", description="Play a sound in VC")
+@app_commands.describe(filename="Pick a file to play")
+@app_commands.choices(filename=[app_commands.Choice(name=f, value=f) for f in get_audio_files()])
 async def vcplay(interaction: discord.Interaction, filename: str):
-    vc = interaction.guild.voice_client
-    if not vc:
-        await interaction.response.send_message("Not in a voice channel 💀")
-        return
+    # join VC
+    if interaction.user.voice and interaction.user.voice.channel:
+        vc = await interaction.user.voice.channel.connect()
+        vc.play(discord.FFmpegPCMAudio(source=f"sounds/{filename}"))
 
-    path_to_ffmpeg = imageio_ffmpeg.get_ffmpeg_exe()
-    audio_source = FFmpegPCMAudio(filename, executable=path_to_ffmpeg)
-    vc.play(audio_source)
-
-    await interaction.response.send_message(f"Now playing: {filename}")
+        await interaction.response.send_message(f"Playing: `{filename}`")
+    else:
+        await interaction.response.send_message("You're not in a voice channel", ephemeral=True)
 
 
 

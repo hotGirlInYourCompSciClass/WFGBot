@@ -254,7 +254,8 @@ async def on_message(message):
 
     
     global jarvis_count
-    banned_words = load_banned_words()
+    banned_words = await load_banned_words()
+
 
     #not deleting features
     if message.author == bot.user and features in message.content:

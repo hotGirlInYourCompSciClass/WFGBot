@@ -260,28 +260,28 @@ async def on_message(message):
 
     #if jarvis is mentioned
     if "jarvis" in message.content.lower():
-    if str(message.author.id) != "1034087251199656047":
-        jarvi_mentioned = message.content.lower().count("jarvis")
+        if str(message.author.id) != "1034087251199656047":
+            jarvi_mentioned = message.content.lower().count("jarvis")
         
-        if jarvi_mentioned <= 3:
-            # Increase count in database
-            await db.execute("UPDATE jarvis_data SET count = count + $1 WHERE id = 1;", jarvi_mentioned)
-            new_count = await db.fetchval("SELECT count FROM jarvis_data WHERE id = 1;")
+            if jarvi_mentioned <= 3:
+                # Increase count in database
+                await db.execute("UPDATE jarvis_data SET count = count + $1 WHERE id = 1;", jarvi_mentioned)
+                new_count = await db.fetchval("SELECT count FROM jarvis_data WHERE id = 1;")
             
-            await message.channel.send(f"x{new_count}")
+                await message.channel.send(f"x{new_count}")
+            else:
+                print(f"{message.author.display_name} said '{message.content}', deleted")
+                deleted_by_bot.add(message.id)
+                await message.delete()
         else:
-            print(f"{message.author.display_name} said '{message.content}', deleted")
+            print(f"{message.author.display_name} said '{message.content}', jarvi removed")
             deleted_by_bot.add(message.id)
             await message.delete()
-    else:
-        print(f"{message.author.display_name} said '{message.content}', jarvi removed")
-        deleted_by_bot.add(message.id)
-        await message.delete()
 
-        msg = await message.channel.send(f"""Cameron you're ruinin'it
-        {message.author.mention}: {message.content.replace("jarvis", "")}""")
-        await asyncio.sleep(3)
-        await msg.delete()
+            msg = await message.channel.send(f"""Cameron you're ruinin'it
+            {message.author.mention}: {message.content.replace("jarvis", "")}""")
+            await asyncio.sleep(3)
+            await msg.delete()
 
 
     

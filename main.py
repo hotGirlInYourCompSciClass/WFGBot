@@ -4,7 +4,6 @@ from discord import app_commands
 import os
 import asyncio
 import random
-import requests
 import re
 from datetime import datetime
 

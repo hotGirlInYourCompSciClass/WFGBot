@@ -118,7 +118,7 @@ bot = commands.Bot(command_prefix="!", intents=intents)
 
 
 #auto turnoff
-start_time = datetime.gmtnow()
+start_time = datetime.utcnow()
 
 
 count_file = "jarvis_count.txt"

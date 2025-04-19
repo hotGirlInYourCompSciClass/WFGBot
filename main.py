@@ -120,7 +120,7 @@ bot = commands.Bot(command_prefix="!", intents=intents)
 
 
 #auto turnoff
-utc = datetime.timezone(datetime.timedelta(0))
+utc = datetime.astimezone(datetime.timedelta(0))
 start_time = datetime.datetime.now(utc)
 print("Current time in UTC:", start_time)
 

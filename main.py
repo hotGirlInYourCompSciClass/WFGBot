@@ -338,8 +338,7 @@ async def on_message(message):
 
     
             
-    if message.author.bot:
-        return
+
     
     #mraow
     if any(word in message.content.lower() for word in meows):

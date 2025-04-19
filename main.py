@@ -148,6 +148,9 @@ async def on_ready():
     bot.loop.create_task(bedtime_check())
     current_time = datetime.now(timezone.utc)
     desired_start_time = current_time.replace(hour=9, minute=0, second=0, microsecond=0)
+    end_time = start_time + timedelta(hours=15)
+    if current_time > end_time:
+        await client.close()
     if current_time < desired_start_time:
         print("too early me eepy")
         await client.close()
@@ -236,7 +239,7 @@ async def bedtime_check():
         current_time = datetime.now(timezone.utc)
 
         # Shut down at exactly midnight UTC
-        if current_time.hour == 0 and current_time.minute == 0:
+        if current_time.hour == 0:
             print("me eepy goodnight")
             await bot.close()
             return

@@ -35,8 +35,8 @@ also if someone says any sort of cat noise it sends a random cat gif from a sele
 /listbanned - lists banned words
 /addbanned - admins only - allows you to add to banned words list
 /removebanned - admins only - allows you to remove words from banned words list
-/join - bot joins vc and does nothing
-/leave - bot leaves vc
+/joinvc - bot joins vc and does nothing
+/leavevc - bot leaves vc
 
 **FILTERING**
 if you use a word in the banned words list it gets deleted and you're told that word isn't allowed
@@ -424,7 +424,7 @@ async def join(interaction: discord.Interaction):
     else:
         await interaction.response.send_message("you're not in a vc")
 
-@bot.tree.command(name="leave", description="make bot leave the vc if cameron's getting pissy")
+@bot.tree.command(name="leavevc", description="make bot leave the vc if cameron's getting pissy")
 async def leave(interaction: discord.Interaction):
     if interaction.guild.voice_client:
         await interaction.guild.voice_client.disconnect()

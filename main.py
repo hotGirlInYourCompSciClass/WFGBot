@@ -80,7 +80,10 @@ def randcat():
     if random.randint(1,100) != 100:
         return catgifs[random.randint(1,10)]
     else:
-        return "https://tenor.com/view/get-on-team-fortress2-team-fortress2-gif-23556930"
+        if random.randint(1,2) == 1:
+            return "https://tenor.com/view/get-on-team-fortress2-team-fortress2-gif-23556930"
+        else:
+            return "https://tenor.com/view/spongebob-backshots-gif-1172518849162068669"
     
 
 #Banned words file

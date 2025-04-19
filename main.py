@@ -96,9 +96,11 @@ banfile = "banned_words.txt"
 
 deleted_by_bot = set()
 
-async def load_banned_words():
-    rows = await db.fetch("SELECT word FROM banned_words;")
-    return [row['word'] for row in rows]
+def load_banned_words(file_path=banfile):
+    with open(file_path, "r") as f:
+        banned_words = [line.strip().lower() for line in f.readlines()]
+    return banned_words
+
 
 async def add_banned_word(word):
     try:
@@ -285,8 +287,7 @@ async def on_message(message):
 
 
     
-    #no shitting
-    banned_words = await load_banned_words()  # Make sure to await this function
+    #no badwords
     if any(word in message.content.lower() for word in banned_words):
         return
 

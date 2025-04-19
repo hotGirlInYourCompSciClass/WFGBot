@@ -238,7 +238,7 @@ async def on_message(message):
             edited = edited.replace(deadname, corrected)
 
     if edited != content:
-        print(f"{message.author.display_name} said '{message.content}', deleted")
+        print(f"{message.author.display_name} used deadname: '{message.content}', replaced and resent")
         deleted_by_bot.add(message.id)
         await message.delete()
         await message.channel.send(f"{message.author.mention}: {edited}")

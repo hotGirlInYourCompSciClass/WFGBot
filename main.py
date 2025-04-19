@@ -6,6 +6,10 @@ import asyncio
 import random
 import re
 from datetime import datetime, timedelta, timezone
+import asyncpg
+
+
+db = None
 
 
 
@@ -92,22 +96,19 @@ banfile = "banned_words.txt"
 
 deleted_by_bot = set()
 
-def load_banned_words(file_path=banfile):
-    with open(file_path, "r") as f:
-        banned_words = [line.strip().lower() for line in f.readlines()]
-    return banned_words
+async def load_banned_words():
+    rows = await db.fetch("SELECT word FROM banned_words;")
+    return [row['word'] for row in rows]
 
-def add_banned_word(word, file_path=banfile):
-    with open(file_path, "a") as f:
-        f.write(f"{word.lower()}\n")
+async def add_banned_word(word):
+    try:
+        await db.execute("INSERT INTO banned_words (word) VALUES ($1);", word.lower())
+    except asyncpg.UniqueViolationError:
+        pass
 
-def remove_banned_word(word, file_path=banfile):
-    with open(file_path, "r") as f:
-        lines = f.readlines()
-    with open(file_path, "w") as f:
-        for line in lines:
-            if line.strip().lower() != word.lower():
-                f.write(line)
+async def remove_banned_word(word):
+    await db.execute("DELETE FROM banned_words WHERE word = $1;", word.lower())
+
 
 
 
@@ -148,40 +149,77 @@ else:
 
 @bot.event
 async def on_ready():
-
     bot.loop.create_task(bedtime_check())
-
-    print(f"Logged in as {bot.user}")
     current_time = datetime.now(timezone.utc)
-
     desired_start_time = current_time.replace(hour=9, minute=0, second=0, microsecond=0)
-
     if current_time < desired_start_time:
         print("too early me eepy")
         await client.close()
-        
     else:
-        print("Bot started!")
+        print(f"Logged in as {bot.user}")
+
+
+    global db
+    db = await asyncpg.connect(os.getenv("DATABASE_URL"))
     
+    # make sure table exists
+    await db.execute("""
+        CREATE TABLE IF NOT EXISTS jarvis_data (
+            id SERIAL PRIMARY KEY,
+            count INTEGER
+        );
+    """)
+
+    await db.execute("""
+    CREATE TABLE IF NOT EXISTS deleted_messages (
+        id SERIAL PRIMARY KEY,
+        author TEXT,
+        content TEXT,
+        channel TEXT,
+        timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        );
+    """)
+
+    await db.execute("""
+    CREATE TABLE IF NOT EXISTS banned_words (
+        id SERIAL PRIMARY KEY,
+        word TEXT UNIQUE
+        );
+    """)
+
+
+
+    
+
+    
+
 
     #something to do with slash commands
     await bot.tree.sync()
+
+
 @bot.event
 async def on_message_delete(message):
-    
-
-
-
-    
     if message.id in deleted_by_bot:
         deleted_by_bot.remove(message.id)
         return
 
-    
-    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    with open("deleted_messages.txt", "a", encoding="utf-8") as f:
-        f.write(f"\n[{timestamp}] {message.author} deleted '{message.content}' in '#{message.channel}'\n")
-    print(f"{message.author} deleted '{message.content}' in '#{message.channel}'")
+    author = str(message.author)
+    content = message.content
+    channel = str(message.channel)
+
+    # Optional: Skip logging empty messages (e.g., just an embed)
+    if not content.strip():
+        return
+
+    # Save to DB
+    await db.execute(
+        "INSERT INTO deleted_messages (author, content, channel) VALUES ($1, $2, $3);",
+        author, content, channel
+    )
+
+    print(f"{author} deleted '{content}' in '#{channel}'")
+
 
 
 #auto shutoff after 15 hours
@@ -222,27 +260,29 @@ async def on_message(message):
 
     #if jarvis is mentioned
     if "jarvis" in message.content.lower():
-        if str(message.author.id) != "1034087251199656047":
-            if message.content.lower().count("jarvis") <= 3:
-                jarvis_count += message.content.lower().count("jarvis")
-    
-                # add new number to jarvis_count.txt
-                with open(count_file, "w") as f:
-                    f.write(str(jarvis_count))
+    if str(message.author.id) != "1034087251199656047":
+        jarvi_mentioned = message.content.lower().count("jarvis")
         
-                await message.channel.send(f"x{jarvis_count}")
-            else:
-                print(f"{message.author.display_name} said '{message.content}', deleted")
-                deleted_by_bot.add(message.id)
-                await message.delete()
+        if jarvi_mentioned <= 3:
+            # Increase count in database
+            await db.execute("UPDATE jarvis_data SET count = count + $1 WHERE id = 1;", jarvi_mentioned)
+            new_count = await db.fetchval("SELECT count FROM jarvis_data WHERE id = 1;")
+            
+            await message.channel.send(f"x{new_count}")
         else:
-            print(f"{message.author.display_name} said '{message.content}', jarvi removed")
+            print(f"{message.author.display_name} said '{message.content}', deleted")
             deleted_by_bot.add(message.id)
             await message.delete()
-            msg = await message.channel.send(f"""Cameron you're ruinin'it
-            {message.author.mention}: {message.content.replace("jarvis", "")}""")
-            await asyncio.sleep(3)
-            await msg.delete()
+    else:
+        print(f"{message.author.display_name} said '{message.content}', jarvi removed")
+        deleted_by_bot.add(message.id)
+        await message.delete()
+
+        msg = await message.channel.send(f"""Cameron you're ruinin'it
+        {message.author.mention}: {message.content.replace("jarvis", "")}""")
+        await asyncio.sleep(3)
+        await msg.delete()
+
 
     
     #no shitting
@@ -307,9 +347,11 @@ async def JarvisCommand(interaction: discord.Interaction, message: str):
 @bot.tree.command(name="setjarvi", description="set the count of jarvi")
 async def SetJarvi(interaction: discord.Interaction, message: int):
     if str(interaction.user.id) in str(cool_ids):
-        global jarvis_count
-        jarvis_count = message
-        await interaction.response.send_message(f"Jarvis count set to {jarvis_count}")
+        await db.execute("UPDATE jarvis_data SET count = $1 WHERE id = 1;", message)
+        await interaction.response.send_message(f"Jarvis count set to {message}")
+    else:
+        await interaction.response.send_message("you don't have permission for that 😤")
+
 
 
 @bot.tree.command(name="jarviscoolcommand", description="cool command")
@@ -346,32 +388,27 @@ async def kys(interaction: discord.Interaction):
 @bot.tree.command(name="addbanned", description="add a word to the banned word list")
 async def addbanned(interaction: discord.Interaction, word: str):
     if str(interaction.user.id) in str(cool_ids):
-        add_banned_word(word)
-        banned_words = load_banned_words()
+        await add_banned_word(word)
         await interaction.response.send_message(f"added {word} to the banned words")
     else:
-        interaction.response.send_message("no perms")
+        await interaction.response.send_message("no perms")
 
-        
 @bot.tree.command(name="removebanned", description="remove a word from the banned word list")
 async def removebanned(interaction: discord.Interaction, word: str):
     if str(interaction.user.id) in str(cool_ids):
-        remove_banned_word(word)
-        banned_words = load_banned_words()
+        await remove_banned_word(word)
         await interaction.response.send_message(f"removed {word} from banned words")
     else:
-        interaction.response.send_message("no perms")
+        await interaction.response.send_message("no perms")
 
-        
 @bot.tree.command(name="listbanned", description="list banned words")
 async def listbanned(interaction: discord.Interaction):
-    banned_words = load_banned_words()
-
+    banned_words = await load_banned_words()
     if not banned_words:
         await interaction.response.send_message("there are no banned words")
-        return
-    word_list = ", ".join(banned_words)
-    await interaction.response.send_message(f"banned words: \n{word_list}")
+    else:
+        await interaction.response.send_message(f"Banned words: {', '.join(banned_words)}")
+
 
 
 

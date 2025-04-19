@@ -302,9 +302,6 @@ async def on_message(message):
 
     
     #no deadnaming
-    if message.author.bot:
-        return
-    
         
     content = message.content
     edited = content

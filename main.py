@@ -442,22 +442,18 @@ async def leave(interaction: discord.Interaction):
         await interaction.response.send_message("not in a vc mate")
 
 @bot.tree.command(name="vcplay", description="Play a file from the repo.")
-@app_commands.describe(filename="Choose a file to play")
-@app_commands.choices(filename=[
-    app_commands.Choice(name=f, value=f) for f in get_audio_files()
-])
-async def vcplay(interaction: discord.Interaction, filename: app_commands.Choice[str]):
+@app_commands.describe(filename="The audio file to play")
+async def vcplay(interaction: discord.Interaction, filename: str):
     vc = interaction.guild.voice_client
     if not vc:
         await interaction.response.send_message("Not in a voice channel 💀")
         return
 
     path_to_ffmpeg = imageio_ffmpeg.get_ffmpeg_exe()
-    audio_source = FFmpegPCMAudio(filename.value, executable=path_to_ffmpeg)
+    audio_source = FFmpegPCMAudio(filename, executable=path_to_ffmpeg)
     vc.play(audio_source)
 
-    await interaction.response.send_message(f"Now playing: {filename.name}")
-
+    await interaction.response.send_message(f"Now playing: {filename}")
 
 
 

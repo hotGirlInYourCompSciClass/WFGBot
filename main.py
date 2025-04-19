@@ -57,7 +57,7 @@ DEADNAMES = {"george stanley": "Elle",
              "gs": "E",
              "gsl": "EL",
              "adam": "Ava",
-             ":hahageroe:": " Elle "
+             "<:hahageroe:1083754356203077692>": "Elle"
              }
 
 

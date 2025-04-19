@@ -23,7 +23,7 @@ up to and including 3 jarvi can be in one message
 if there are more than 3 the message is deleted and the jarvi are not counted
 if cameron says jarvis it deletes the message and says "Cameron you're ruinin'it" then deletes that after 3 seconds
 
-also if someone says "mraow" it sends a random cat gif from a selection of 10 or 1/100 chance for secret gif :shushing_face:
+also if someone says any sort of cat noise it sends a random cat gif from a selection of 10 or 1/100 chance for secret gif :shushing_face:
 
 **COMMANDS**
 /jarviscommand - repeats what you say to it
@@ -35,6 +35,8 @@ also if someone says "mraow" it sends a random cat gif from a selection of 10 or
 /listbanned - lists banned words
 /addbanned - admins only - allows you to add to banned words list
 /removebanned - admins only - allows you to remove words from banned words list
+/join - bot joins vc and does nothing
+/leave - bot leaves vc
 
 **FILTERING**
 if you use a word in the banned words list it gets deleted and you're told that word isn't allowed

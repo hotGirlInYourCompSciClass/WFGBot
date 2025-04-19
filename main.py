@@ -333,7 +333,7 @@ async def on_message(message):
     
     #mraow
     if any(word in message.content.lower() for word in meows):
-        await message.channel.send(content=None, embed=discord.Embed().set_image(url=randcat()))
+        await message.channel.send(url=randcat())
         await message.channel.send(message.author.mention)
     if message.content.lower() in meows:
         print(f"{message.author.display_name} said '{message.content}', deleted")

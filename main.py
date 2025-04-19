@@ -6,7 +6,6 @@ import asyncio
 import random
 import re
 from datetime import datetime, timedelta, timezone
-import asyncpg
 
 
 db = None

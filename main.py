@@ -443,7 +443,7 @@ async def leave(interaction: discord.Interaction):
         await interaction.response.send_message("not in a vc mate")
 
 @bot.tree.command(name="vcplay", description="Play a file from the repo.")
-@bot.app_commands.describe(filename="The audio file to play")
+@app_commands.describe(filename="The audio file to play")
 async def vcplay(interaction: discord.Interaction, filename: str):
     vc = interaction.guild.voice_client
     if not vc:

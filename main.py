@@ -71,16 +71,16 @@ DEADNAMES = {"george stanley": "Elle",
 #cat gif list
 def randcat():
     catgifs = {
-        1:"https://media1.tenor.com/m/zV8d6yA27_0AAAAd/meow-cute.gif",
-        2:"https://media1.tenor.com/m/CSYZehS9PsYAAAAd/cat-meoooow.gif",
+        1:"https://tenor.com/view/meow-cute-help-gif-12669267",
+        2:"https://tenor.com/view/cat-meoooow-meow-trp-trp10-gif-18218658",
         3:"https://tenor.com/view/cat-gif-12756433236776117962",
-        4:"https://media1.tenor.com/m/ClA4LVZeK-4AAAAd/cat-meow.gif",
-        5:"https://media1.tenor.com/m/h9o-bk6oQZ4AAAAC/cat-you-play-like-a-cat.gif",
-        6:"https://media1.tenor.com/m/GrITNZuqa70AAAAd/meowsad-catmeme.gif",
-        7:"https://media1.tenor.com/m/AZ__XiQ_RjsAAAAd/gato-gatinho.gif",
-        8:"https://media1.tenor.com/m/djnAyW0RPs4AAAAd/gato.gif",
-        9:"https://media.tenor.com/olHurgMy-uMAAAAi/kitty-kittyjump.gif",
-        10:"https://media1.tenor.com/m/C4wH4BRlOeoAAAAd/black-sabbath-war-pigs.gif"
+        4:"https://tenor.com/view/cat-meow-yap-yapping-yapper-gif-743155705889827822",
+        5:"https://tenor.com/view/cat-you-play-like-a-cat-play-like-a-cat-mrrp-mrp-gif-9789205383530168734",
+        6:"https://tenor.com/view/meowsad-catmeme-gif-1923621111806454717",
+        7:"https://tenor.com/view/gato-gatinho-explos%C3%A3o-bomba-triste-gif-117092895135057467",
+        8:"https://tenor.com/view/gato-gif-8519052141498810062",
+        9:"https://tenor.com/view/kitty-kittyjump-excited-kitty-meow-meowhyuck-gif-11696392138403281635",
+        10:"https://tenor.com/view/black-sabbath-war-pigs-on-their-knees-the-war-pigs-crawling-cat-meme-gif-832048690152946154"
         }
     if random.randint(1,100) != 100:
         return catgifs[random.randint(1,10)]

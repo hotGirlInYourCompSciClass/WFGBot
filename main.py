@@ -56,7 +56,6 @@ meows = [
 
 #deadnames
 DEADNAMES = {"george stanley": "Elle",
-             "george": "Elle",
              "gs": "E",
              "gsl": "EL",
              "adam": "Ava",

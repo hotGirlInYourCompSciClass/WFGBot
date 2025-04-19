@@ -116,6 +116,11 @@ DaddyD = "<:DaddyD:1362761374941315253>"
 
 bot = commands.Bot(command_prefix="!", intents=intents)
 
+
+#auto turnoff
+start_time = datetime.datetime.gmtnow()
+
+
 count_file = "jarvis_count.txt"
 
 # Prepare Jarvis_Count file
@@ -130,6 +135,8 @@ else:
 async def on_ready():
     print(f"Logged in as {bot.user}")
 
+    asyncio.create_task(shutdown_after_hours(15))
+
     #something to do with slash commands
     await bot.tree.sync()
 @bot.event
@@ -138,6 +145,15 @@ async def on_message_delete(message):
     with open("deleted_messages.txt", "a", encoding="utf-8") as f:
         f.write(f"\n[{timestamp}] {message.author} deleted '{message.content}' in '#{message.channel}'\n")
     print(f"{message.author} deleted '{message.content}' in '#{message.channel}'")
+
+
+#auto shutoff after 15 hours
+@bot.event
+async def shutdown_after_hours(hours):
+    await asyncio.sleep(hours * 3600)  # 15 hours in seconds
+    print("Shutting down bot.")
+    await bot.close()
+
 
 @bot.event
 async def on_message(message):
@@ -202,7 +218,7 @@ async def on_message(message):
         
 
 
-
+    
 
         
 

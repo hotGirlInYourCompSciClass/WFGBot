@@ -124,6 +124,8 @@ utc = timezone(timedelta(0))
 # get the current time in UTC
 start_time = datetime.now(utc)
 print("Current time in UTC:", start_time)
+end_time = start_time + timedelta(hours=15)
+print("Planned turnoff at ", end_time)
 
 
 count_file = "jarvis_count.txt"

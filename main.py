@@ -286,8 +286,9 @@ async def on_message(message):
 
     
     #no shitting
-    if message.author.bot and any(word in message.content.lower() for word in banned_words):
-         return
+    banned_words = await load_banned_words()  # Make sure to await this function
+    if any(word in message.content.lower() for word in banned_words):
+        return
 
 
     if any(word in message.content.lower() for word in banned_words):

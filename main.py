@@ -141,7 +141,7 @@ async def on_ready():
     print(f"Logged in as {bot.user}")
     current_time = datetime.now(timezone.utc)
 
-    desired_start_time = current_time.replace(hour=7, minute=0, second=0, microsecond=0)
+    desired_start_time = current_time.replace(hour=9, minute=0, second=0, microsecond=0)
 
     if current_time < desired_start_time:
         print("too early me eepy")

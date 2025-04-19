@@ -131,7 +131,7 @@ utc = timezone(timedelta(0))
 start_time = datetime.now(utc)
 print("Current time in UTC:", start_time)
 end_time = start_time + timedelta(hours=15)
-print("Planned turnoff at ", end_time)
+print("Planned turnoff at ", end_time, " or if it reaches 11pm")
 
 
 count_file = "jarvis_count.txt"
@@ -146,6 +146,9 @@ else:
 
 @bot.event
 async def on_ready():
+
+    bot.loop.create_task(bedtime_check())
+
     print(f"Logged in as {bot.user}")
     current_time = datetime.now(timezone.utc)
 
@@ -163,6 +166,11 @@ async def on_ready():
     await bot.tree.sync()
 @bot.event
 async def on_message_delete(message):
+    
+
+
+
+    
     if message.id in deleted_by_bot:
         deleted_by_bot.remove(message.id)
         return
@@ -181,9 +189,28 @@ async def shutdown_after_hours(hours):
     print("Shutting down bot.")
     await bot.close()
 
+@bot.event
+async def bedtime_check():
+    await bot.wait_until_ready()
+    while not bot.is_closed():
+        current_time = datetime.now(timezone.utc)
+
+        # Shut down at exactly midnight UTC
+        if current_time.hour == 0 and current_time.minute == 0:
+            print("me eepy goodnight")
+            await bot.close()
+            return
+
+        await asyncio.sleep(60)  # check once every minute
+
+
 
 @bot.event
 async def on_message(message):
+
+
+
+    
     global jarvis_count
     banned_words = load_banned_words()
 

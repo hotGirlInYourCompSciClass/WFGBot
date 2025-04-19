@@ -39,6 +39,7 @@ also if someone says "mraow" it sends a random cat gif from a selection of 10 or
 **FILTERING**
 if you use a word in the banned words list it gets deleted and you're told that word isn't allowed
 if you use a dead name the message gets deleted and the bot sends your message but with the deadname replaced
+(unless you say george because cameron is pissy like that)
 
 **UPTIME**
 *should* turn on at 8am every day adn turn off 15 hours later"""
@@ -96,10 +97,11 @@ banfile = "banned_words.txt"
 
 deleted_by_bot = set()
 
-def load_banned_words(file_path=banfile):
-    with open(file_path, "r") as f:
-        banned_words = [line.strip().lower() for line in f.readlines()]
-    return banned_words
+async def load_banned_words():
+    rows = await db.fetch("SELECT word FROM banned_words;")
+    return [row["word"] for row in rows]
+
+
 
 
 async def add_banned_word(word):
@@ -139,14 +141,8 @@ end_time = start_time + timedelta(hours=15)
 print("Planned turnoff at ", end_time, " or if it reaches 11pm")
 
 
-count_file = "jarvis_count.txt"
 
-# Prepare Jarvis_Count file
-if os.path.exists(count_file):
-    with open(count_file, "r") as f:
-        jarvis_count = int(f.read())
-else:
-    jarvis_count = 0
+jarvis_count = 0
 
 
 @bot.event
@@ -189,6 +185,10 @@ async def on_ready():
         );
     """)
 
+    # make sure there's a row with id = 1
+    existing = await db.fetchval("SELECT count FROM jarvis_data WHERE id = 1;")
+    if existing is None:
+        await db.execute("INSERT INTO jarvis_data (id, count) VALUES (1, 0);")
 
 
     

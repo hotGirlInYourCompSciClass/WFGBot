@@ -5,7 +5,7 @@ import os
 import asyncio
 import random
 import re
-from datetime import datetime, timedelta, timezone
+import datetime
 
 
 
@@ -120,7 +120,7 @@ bot = commands.Bot(command_prefix="!", intents=intents)
 
 #auto turnoff
 utc = timezone(timedelta(0))
-start_time = datetime.now(utc)
+start_time = datetime.datetime.now(utc)
 print("Current time in UTC:", start_time)
 
 
@@ -137,7 +137,7 @@ else:
 @bot.event
 async def on_ready():
     print(f"Logged in as {bot.user}")
-    current_time = datetime.now(datetime.timezone.utc)
+    current_time = datetime.datetime.now(datetime.timezone.utc)
 
     desired_start_time = current_time.replace(hour=7, minute=0, second=0, microsecond=0)
 

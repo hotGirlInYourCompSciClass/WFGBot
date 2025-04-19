@@ -61,15 +61,6 @@ meows = [
 ]
 
 
-#get audio files
-def get_audio_files():
-    folder = os.path.dirname(__file__)  # same directory as the script
-    return [
-        file for file in os.listdir(folder)
-        if file.endswith(('.mp3', '.wav'))
-    ]
-
-
 #deadnames
 DEADNAMES = {"george stanley": "Elle",
              "gs": "E",
@@ -440,15 +431,6 @@ async def leave(interaction: discord.Interaction):
         await interaction.response.send_message("k bye")
     else:
         await interaction.response.send_message("not in a vc mate")
-
-@bot.tree.command(name="vcplay", description="Play a sound in VC")
-@app_commands.describe(filename="Pick a file to play")
-async def vcplay(interaction: discord.Interaction, filename: str):
-
-    vc.play(discord.FFmpegPCMAudio(source=f"sounds/{filename}"))
-
-    await interaction.response.send_message(f"Playing: `{filename}`")
-
 
 
 

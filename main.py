@@ -234,10 +234,11 @@ async def on_message(message):
                 deleted_by_bot.add(message.id)
                 await message.delete()
         else:
-            print(f"{message.author.display_name} said '{message.content}', deleted")
+            print(f"{message.author.display_name} said '{message.content}', jarvi removed")
             deleted_by_bot.add(message.id)
             await message.delete()
-            msg = await message.channel.send("Cameron you're ruinin'it")
+            msg = await message.channel.send(f"""Cameron you're ruinin'it
+            {message.author.mention}: {message.content.replace("jarvis", "")}""")
             await asyncio.sleep(3)
             await msg.delete()
 

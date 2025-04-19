@@ -84,6 +84,9 @@ def randcat():
 #Banned words file
 banfile = "banned_words.txt"
 
+
+deleted_by_bot = set()
+
 def load_banned_words(file_path=banfile):
     with open(file_path, "r") as f:
         banned_words = [line.strip().lower() for line in f.readlines()]
@@ -157,7 +160,8 @@ async def on_ready():
     await bot.tree.sync()
 @bot.event
 async def on_message_delete(message):
-    if message.author == bot.user:
+    if message.id in deleted_by_bot:
+        deleted_by_bot.remove(message.id)
         return
 
     
@@ -197,9 +201,11 @@ async def on_message(message):
                 await message.channel.send(f"x{jarvis_count}")
             else:
                 print(f"{message.author.display_name} said '{message.content}', deleted")
+                deleted_by_bot.add(message.id)
                 await message.delete()
         else:
             print(f"{message.author.display_name} said '{message.content}', deleted")
+            deleted_by_bot.add(message.id)
             await message.delete()
             msg = await message.channel.send("Cameron you're ruinin'it")
             await asyncio.sleep(3)
@@ -213,6 +219,7 @@ async def on_message(message):
 
     if any(word in message.content.lower() for word in banned_words):
         print(f"{message.author.display_name} said '{message.content}', deleted")
+        deleted_by_bot.add(message.id)
         await message.delete()
         await message.channel.send(f"{message.author.mention} That word isn't allowed")
         return
@@ -232,6 +239,7 @@ async def on_message(message):
 
     if edited != content:
         print(f"{message.author.display_name} said '{message.content}', deleted")
+        deleted_by_bot.add(message.id)
         await message.delete()
         await message.channel.send(f"{message.author.mention}: {edited}")
 

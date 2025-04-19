@@ -1,3 +1,1 @@
-kietl deleted 'test' in '#Gheneral'
-kietl deleted 'test2' in '#Gheneral'[2025-04-18 21:46:17] kietl deleted ',.test' in '#Gheneral'
-[2025-04-18 21:46:51] kietl deleted 'asdad' in '#commands'
+

@@ -34,7 +34,10 @@ also if someone says "mraow" it sends a random cat gif from a selection of 10 or
 
 **FILTERING**
 if you use a word in the banned words list it gets deleted and you're told that word isn't allowed
-if you use a dead name the message gets deleted and the bot sends your message but with the deadname replaced"""
+if you use a dead name the message gets deleted and the bot sends your message but with the deadname replaced
+
+**UPTIME**
+*should* turn on at 8am every day adn turn off 15 hours later"""
 
 
 #meowlist

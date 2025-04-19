@@ -288,8 +288,9 @@ async def on_message(message):
     #mraow
     if any(word in message.content.lower() for word in meows):
         await message.channel.send(randcat())
-        print(f"{message.author.display_name} said '{message.content}', deleted")
-        await message.delete()
+        if message.content.lower() in meows:
+            print(f"{message.author.display_name} said '{message.content}', deleted")
+            await message.delete()
 
     await bot.process_commands(message)
 

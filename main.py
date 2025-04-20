@@ -114,7 +114,9 @@ def randcat():
         18: "https://tenor.com/view/gaslight-gatekeep-girlboss-gaslight-gatekeep-girlboss-freddy-fazbear-gif-25108236",
         19: "https://tenor.com/view/anime-waifu-dance-gif-25689550",
         20: "Keep meowing :D https://tenor.com/view/niffty-niffty-hazbin-hazbin-hotel-jump-stim-gif-568824074923902625",
-        21: "Me as I keep adding these: https://tenor.com/view/ghostedvpn-hacker-cat-bongo-cat-keyboard-cat-hacker-gif-4373606555250453292"
+        21: "Me as I keep adding these: https://tenor.com/view/ghostedvpn-hacker-cat-bongo-cat-keyboard-cat-hacker-gif-4373606555250453292",
+        22: "https://tenor.com/view/i-am-only-one-man's-girl-his-name-is-jesus-christ-belong-to-jesus-jesus-christ-not-until-mariage-gif-16757286860798336335",
+        23: "https://tenor.com/view/matpat-game-theory-jumpscare-gif-17715187260881724719"
     }
     if random.randint(1, 100) >= 95:
         return raregifs[random.randint(1, len(raregifs))]
@@ -226,7 +228,7 @@ async def on_message(message):
                     await conn.execute("UPDATE jarvis_data SET count = count + $1 WHERE id = 1;", jarvi_mentioned)
                     new_count = await conn.fetchval("SELECT count FROM jarvis_data WHERE id = 1;")
                 
-                await message.channel.send(f"x{new_count}")
+                await message.channel.send(f"x{new_count} https://tenor.com/view/benjimemes-gif-1379171232988867990")
             else:
                 print(f"{message.author.display_name} said '{message.content}', deleted")
                 
@@ -268,6 +270,11 @@ async def on_message(message):
         if msg == "(At Elle's request. I was under orders, I had no choice) https://tenor.com/view/furry-hopon-gif-25273193":
             await asyncio.sleep(3)
             await interaction.edit_original_response("https://tenor.com/view/furry-hopon-gif-25273193")
+        if msg == "https://tenor.com/en-GB/view/filian-embed-fail-gif-27021762":
+            await asyncio.sleep(5)
+            await interaction.edit_original_response("Wait, no... https://tenor.com/en-GB/view/filian-embed-fail-gif-27021762")
+            await asyncio.sleep(5)
+            await interaction.edit_original_response("https://tenor.com/view/filian-gif-18304054096777899760")
 
     # make sure it still processes commands
     await bot.process_commands(message)

@@ -86,16 +86,41 @@ def randcat():
         9: "https://tenor.com/view/kitty-kittyjump-excited-kitty-meow-meowhyuck-gif-11696392138403281635",
         10: "https://tenor.com/view/black-sabbath-war-pigs-on-their-knees-the-war-pigs-crawling-cat-meme-gif-832048690152946154",
         11: "https://cdn.discordapp.com/attachments/1017831546633334916/1363530849630425108/Screenshot_20250416-125042.png?ex=68065e8f&is=68050d0f&hm=0e907944bb912980e39ce912c320f60afa0c7c4b7fbd2d31ebe706e328c92705&",
-        12: "https://tenor.com/view/neuro-sama-evil-neuro-bounce-vedal987-neuro-gif-11513855482341596679"
+        12: "https://tenor.com/view/neuro-sama-evil-neuro-bounce-vedal987-neuro-gif-11513855482341596679",
+        13: "https://tenor.com/view/floppa-spy-tf2-valve-team-fortress-gif-19751193",
+        14: "https://tenor.com/view/cat-cat-meme-cat-hug-cat-kiss-kiss-gif-7995560765945148820",
+        15: "https://tenor.com/en-GB/view/filian-embed-fail-gif-27021762", #supposed to be embed fail
+        16: "https://tenor.com/view/neuro-sama-neuro-sama-neuro-sama-vtuber-neuro-neuro-vtuber-gif-16392526205380439187",
+        17: "https://tenor.com/view/neuro-neuro-sama-cat-overlord-neuro-sama-gif-9439092095145078224"
     }
-    if random.randint(1, 100) != 100:
+    raregifs = {
+        1: "https://tenor.com/view/neuro-sama-ai-vtuber-suspicious-dubious-gif-10363453030530375437",
+        2: "https://tenor.com/view/get-on-team-fortress2-team-fortress2-gif-23556930",
+        3: "https://tenor.com/view/spongebob-backshots-gif-1172518849162068669",
+        4: "https://tenor.com/view/furry-anti-furry-furrys-when-the-springlocks-start-activating-gif-3295430340879895358",
+        5: "https://tenor.com/view/hatsune-miku-meme-gif-8373983160467407608",
+        6: "https://tenor.com/view/dark-urge-shadowheart-baldur's-gate-3-hop-on-baldur's-gate-3-kiss-gif-3266055874247923337",
+        7: "https://tenor.com/view/sans-undertale-gif-11943201415334364081",
+        8: "https://tenor.com/view/mcdonalds-flexing-gainz-showing-muscles-i'm-loving-it-gif-8562390891048052730",
+        9: "https://tenor.com/view/pom-pom-purin-hi-omc-gif-16553892039548589920",
+        10: "https://tenor.com/view/arcadum-maid-cosplay-pose-sexy-gif-22612502",
+        11: "https://tenor.com/view/shy-among-us-sussy-baka-yellow-uwu-face-gif-27368757",
+        12: "https://tenor.com/view/gopher-darius-screaming-excited-screaming-gif-9632076301582127705",
+        13: "https://tenor.com/view/fnaf-five-nights-at-freddy's-gif-4059222196466761933",
+        14: "https://tenor.com/view/circus-baby-cursed-fnaf-gif-18818734",
+        15: "(At Elle's request. I was under orders, I had no choice) https://tenor.com/view/furry-hopon-gif-25273193",
+        16: "https://tenor.com/view/neurosama-explosion-vedal-gif-10953604243590119044",
+        17: "Me when rare gif: https://tenor.com/view/yippee-creature-meme-party-yay-gif-4844138631754730183",
+        18: "https://tenor.com/view/gaslight-gatekeep-girlboss-gaslight-gatekeep-girlboss-freddy-fazbear-gif-25108236",
+        19: "https://tenor.com/view/anime-waifu-dance-gif-25689550",
+        20: "https://tenor.com/view/hazbinhotel-angel-dust-dance-happy-gif-8398732535355678394",
+        21: "Keep meowing :D https://tenor.com/view/niffty-niffty-hazbin-hazbin-hotel-jump-stim-gif-568824074923902625",
+        22: "Me as I keep adding these: https://tenor.com/view/ghostedvpn-hacker-cat-bongo-cat-keyboard-cat-hacker-gif-4373606555250453292"
+    }
+    if random.randint(1, 100) >= 95:
         return catgifs[random.randint(1, len(catgifs))]
     else:
-        if random.randint(1, 2) == 1:
-            return "https://tenor.com/view/get-on-team-fortress2-team-fortress2-gif-23556930"
-        else:
-            return "https://tenor.com/view/spongebob-backshots-gif-1172518849162068669"
-
+        return raregifs[random.randint(1, len(raregifs))]
 
 # Banned words file
 banfile = "banned_words.txt"
@@ -239,7 +264,11 @@ async def on_message(message):
 
     # mraow
     if any(word in lower_message for word in meows) and not message.author.bot:
-            await message.channel.send(randcat())
+        msg = randcat()
+        await message.channel.send(msg)
+        if msg == "(At Elle's request. I was under orders, I had no choice) https://tenor.com/view/furry-hopon-gif-25273193":
+            await asyncio.sleep(3)
+            await interaction.edit_original_response("https://tenor.com/view/furry-hopon-gif-25273193")
 
     # make sure it still processes commands
     await bot.process_commands(message)

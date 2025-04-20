@@ -114,8 +114,8 @@ async def remove_banned_word(word):
 intents = discord.Intents.default()
 intents.message_content = True
 
-#admin perms list me             darius
-cool_ids = "764518265778602004 818561900891471943"
+#admin perms list me                D
+cool_ids = ["764518265778602004", "818561900891471943"]
 
 #Emojis
 sans = "<:sans:1362759699669450892>"
@@ -133,7 +133,7 @@ jarvis_count = 0
 async def on_ready():
     print(f"Logged in as {bot.user}")
 
-       #database setup
+    #database setup
     global db
     db = await asyncpg.connect(os.getenv("DATABASE_URL"))
     
@@ -295,7 +295,7 @@ async def JarvisCommand(interaction: discord.Interaction, message: str):
 
 @bot.tree.command(name="setjarvi", description="set the count of jarvi")
 async def SetJarvi(interaction: discord.Interaction, message: int):
-    if str(interaction.user.id) in str(cool_ids):
+    if str(interaction.user.id) in cool_ids:
         await db.execute("UPDATE jarvis_data SET count = $1 WHERE id = 1;", message)
         await interaction.response.send_message(f"Jarvis count set to {message}")
     else:
@@ -306,7 +306,7 @@ async def SetJarvi(interaction: discord.Interaction, message: int):
 @bot.tree.command(name="jarviscoolcommand", description="cool command")
 async def JarvisCoolCommand(interaction: discord.Interaction, message: str):
     message += sans + DaddyD
-    if str(interaction.user.id) in str(cool_ids):
+    if str(interaction.user.id) in cool_ids:
         await interaction.response.send_message(message)
 
 
@@ -327,7 +327,7 @@ async def listfeatures(interaction: discord.Interaction):
 
 @bot.tree.command(name="kys", description="stop the script from running")
 async def kys(interaction: discord.Interaction):
-    if str(interaction.user.id) in str(cool_ids):
+    if str(interaction.user.id) in cool_ids:
         await interaction.response.send_message(r"\:(")
         await bot.close()
     else:
@@ -336,7 +336,7 @@ async def kys(interaction: discord.Interaction):
 
 @bot.tree.command(name="addbanned", description="add a word to the banned word list")
 async def addbanned(interaction: discord.Interaction, word: str):
-    if str(interaction.user.id) in str(cool_ids):
+    if str(interaction.user.id) in cool_ids:
         await add_banned_word(word)
         await interaction.response.send_message(f"added {word} to the banned words")
     else:
@@ -344,7 +344,7 @@ async def addbanned(interaction: discord.Interaction, word: str):
 
 @bot.tree.command(name="removebanned", description="remove a word from the banned word list")
 async def removebanned(interaction: discord.Interaction, word: str):
-    if str(interaction.user.id) in str(cool_ids):
+    if str(interaction.user.id) in cool_ids:
         await remove_banned_word(word)
         await interaction.response.send_message(f"removed {word} from banned words")
     else:

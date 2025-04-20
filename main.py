@@ -8,15 +8,16 @@ import re
 from datetime import datetime, timedelta, timezone
 import asyncpg
 
-#database init
+# database init
 db = None
+pool = None
 
-#discord token from .env
+# discord token from .env
 token = os.getenv("DISCORD_TOKEN")
 if token is None:
     raise ValueError("token not found in environment variables")
 
-#Features docs
+# Features docs
 features = """**COUNTER**
 if jarvis is mentioned add 1 to jarvis_count.txt
 up to and including 3 jarvi can be in one message
@@ -44,7 +45,7 @@ if you use a dead name the message gets deleted and the bot sends your message b
 **UPTIME**
 *should* be on at all times"""
 
-#meowlist
+# meowlist
 meows = [
     "meow", "mew", "mewo", "meww", "mewww", "mew~", "meww~",
     "mraow", "mrow", "mrrp", "mrp", "mrrrp", "mrrrow", "mraww",
@@ -54,9 +55,10 @@ meows = [
     "reeow", "reow", "rowr", "rawr", "rawrr", "reee", "eeow",
     "hiss", "hsss", "hssss", "murr", "murrr", "murmur",
     "purr", "purrr", "purrrr", "blp", "blep", "meoww", "brlp",
-    "mmrow", "mmrrp", "meeeow", "meeeu", "meuuu", "eow", "owww" ]
+    "mmrow", "mmrrp", "meeeow", "meeeu", "meuuu", "eow", "owww"
+]
 
-#deadnames
+# deadnames
 DEADNAMES = {"george stanley": "Elle",
              " gs": "E",
              "gsl": "EL",
@@ -64,67 +66,74 @@ DEADNAMES = {"george stanley": "Elle",
              "<:hahageroe:1083754356203077692>": "Elle"
              }
 
-#generate random cat
+# generate random cat
 def randcat():
     catgifs = {
-        1:"https://tenor.com/view/meow-cute-help-gif-12669267",
-        2:"https://tenor.com/view/cat-meoooow-meow-trp-trp10-gif-18218658",
-        3:"https://tenor.com/view/cat-gif-12756433236776117962",
-        4:"https://tenor.com/view/cat-meow-yap-yapping-yapper-gif-743155705889827822",
-        5:"https://tenor.com/view/cat-you-play-like-a-cat-play-like-a-cat-mrrp-mrp-gif-9789205383530168734",
-        6:"https://tenor.com/view/meowsad-catmeme-gif-1923621111806454717",
-        7:"https://tenor.com/view/gato-gatinho-explos%C3%A3o-bomba-triste-gif-117092895135057467",
-        8:"https://tenor.com/view/gato-gif-8519052141498810062",
-        9:"https://tenor.com/view/kitty-kittyjump-excited-kitty-meow-meowhyuck-gif-11696392138403281635",
-        10:"https://tenor.com/view/black-sabbath-war-pigs-on-their-knees-the-war-pigs-crawling-cat-meme-gif-832048690152946154"
-        }
-    if random.randint(1,100) != 100:
-        return catgifs[random.randint(1,10)]
+        1: "https://tenor.com/view/meow-cute-help-gif-12669267",
+        2: "https://tenor.com/view/cat-meoooow-meow-trp-trp10-gif-18218658",
+        3: "https://tenor.com/view/cat-gif-12756433236776117962",
+        4: "https://tenor.com/view/cat-meow-yap-yapping-yapper-gif-743155705889827822",
+        5: "https://tenor.com/view/cat-you-play-like-a-cat-play-like-a-cat-mrrp-mrp-gif-9789205383530168734",
+        6: "https://tenor.com/view/meowsad-catmeme-gif-1923621111806454717",
+        7: "https://tenor.com/view/gato-gatinho-explos%C3%A3o-bomba-triste-gif-117092895135057467",
+        8: "https://tenor.com/view/gato-gif-8519052141498810062",
+        9: "https://tenor.com/view/kitty-kittyjump-excited-kitty-meow-meowhyuck-gif-11696392138403281635",
+        10: "https://tenor.com/view/black-sabbath-war-pigs-on-their-knees-the-war-pigs-crawling-cat-meme-gif-832048690152946154"
+    }
+    if random.randint(1, 100) != 100:
+        return catgifs[random.randint(1, 10)]
     else:
-        if random.randint(1,2) == 1:
+        if random.randint(1, 2) == 1:
             return "https://tenor.com/view/get-on-team-fortress2-team-fortress2-gif-23556930"
         else:
             return "https://tenor.com/view/spongebob-backshots-gif-1172518849162068669"
-    
 
-#Banned words file
+
+# Banned words file
 banfile = "banned_words.txt"
 
 
-deleted_by_bot = set()
+async def ensure_db_connection():
+    global pool
+    if pool is None:
+        pool = await asyncpg.create_pool(dsn=os.getenv("DATABASE_URL"))
+
 
 async def load_banned_words():
+    await ensure_db_connection()
+    async with pool.acquire() as conn:
+        rows = await conn.fetch("SELECT word FROM banned_words;")
+    return [row["word"] for row in rows]
 
-    global db
-    if db is None:
-        print("DB is not connected yet!")
-        return []
-    rows = await db.fetch("SELECT word FROM banned_words;")
-    return [row["word"] for row in rows] 
 
 async def add_banned_word(word):
-    try:
-        await db.execute("INSERT INTO banned_words (word) VALUES ($1);", word.lower())
-    except asyncpg.UniqueViolationError:
-        pass
+    await ensure_db_connection()
+    async with pool.acquire() as conn:
+        try:
+            await conn.execute("INSERT INTO banned_words (word) VALUES ($1);", word.lower())
+        except asyncpg.UniqueViolationError:
+            pass
+
 
 async def remove_banned_word(word):
-    await db.execute("DELETE FROM banned_words WHERE word = $1;", word.lower())
+    await ensure_db_connection()
+    async with pool.acquire() as conn:
+        await conn.execute("DELETE FROM banned_words WHERE word = $1;", word.lower())
 
 
-#something to do with slash commands
+# something to do with slash commands
 intents = discord.Intents.default()
 intents.message_content = True
 
-#admin perms list me                D
+# admin perms list
 cool_ids = ["764518265778602004", "818561900891471943"]
 
-#Emojis
+# Emojis
 sans = "<:sans:1362759699669450892>"
 DaddyD = "<:DaddyD:1362761374941315253>"
 
 
-#non slash commands
+# non slash commands
 bot = commands.Bot(command_prefix="!", intents=intents)
 
 
@@ -135,101 +144,64 @@ jarvis_count = 0
 async def on_ready():
     print(f"Logged in as {bot.user}")
 
-    #database setup
-    global db
-    db = await asyncpg.connect(os.getenv("DATABASE_URL"))
-    
-    # make sure table exists
-    await db.execute("""
-        CREATE TABLE IF NOT EXISTS jarvis_data (
+    # database setup
+    await ensure_db_connection()
+
+    async with pool.acquire() as conn:
+        # make sure table exists
+        await conn.execute("""
+            CREATE TABLE IF NOT EXISTS jarvis_data (
+                id SERIAL PRIMARY KEY,
+                count INTEGER
+            );
+        """)
+
+        await conn.execute("""
+        CREATE TABLE IF NOT EXISTS banned_words (
             id SERIAL PRIMARY KEY,
-            count INTEGER
-        );
-    """)
+            word TEXT UNIQUE
+            );
+        """)
 
-    await db.execute("""
-    CREATE TABLE IF NOT EXISTS deleted_messages (
-        id SERIAL PRIMARY KEY,
-        author TEXT,
-        content TEXT,
-        channel TEXT,
-        timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-        );
-    """)
+        # make sure there's a row with id = 1
+        existing = await conn.fetchval("SELECT count FROM jarvis_data WHERE id = 1;")
+        if existing is None:
+            await conn.execute("INSERT INTO jarvis_data (id, count) VALUES (1, 0);")
 
-    await db.execute("""
-    CREATE TABLE IF NOT EXISTS banned_words (
-        id SERIAL PRIMARY KEY,
-        word TEXT UNIQUE
-        );
-    """)
-
-    # make sure there's a row with id = 1
-    existing = await db.fetchval("SELECT count FROM jarvis_data WHERE id = 1;")
-    if existing is None:
-        await db.execute("INSERT INTO jarvis_data (id, count) VALUES (1, 0);")
-
-
-    #something to do with slash commands
+    # something to do with slash commands
     await bot.tree.sync()
-
-
-@bot.event
-async def on_message_delete(message):
-    if message.id in deleted_by_bot:
-        deleted_by_bot.remove(message.id)
-        return
-
-    author = str(message.author)
-    content = message.content
-    channel = str(message.channel)
-
-    # Optional: Skip logging empty messages (e.g., just an embed)
-    if not content.strip():
-        return
-
-    # Save to DB
-    await db.execute(
-        "INSERT INTO deleted_messages (author, content, channel) VALUES ($1, $2, $3);",
-        author, content, channel
-    )
-
-    print(f"{author} deleted '{content}' in '#{channel}'")
 
 
 @bot.event
 async def on_message(message):
     lower_message = message.content.lower()
 
-
-
-    
     global jarvis_count
     banned_words = await load_banned_words()
 
-
-    #not deleting features
+    # not deleting features
     if message.author == bot.user and features in message.content:
         return
 
-    #if jarvis is mentioned
+    # if jarvis is mentioned
     if "jarvis" in lower_message:
         if str(message.author.id) != "1034087251199656047":
             jarvi_mentioned = lower_message.count("jarvis")
         
             if jarvi_mentioned <= 3:
                 # Increase count in database
-                await db.execute("UPDATE jarvis_data SET count = count + $1 WHERE id = 1;", jarvi_mentioned)
-                new_count = await db.fetchval("SELECT count FROM jarvis_data WHERE id = 1;")
-            
+                async with pool.acquire() as conn:
+                    await conn.execute("UPDATE jarvis_data SET count = count + $1 WHERE id = 1;", jarvi_mentioned)
+                    new_count = await conn.fetchval("SELECT count FROM jarvis_data WHERE id = 1;")
+                
                 await message.channel.send(f"x{new_count}")
             else:
                 print(f"{message.author.display_name} said '{message.content}', deleted")
-                deleted_by_bot.add(message.id)
+                
                 await message.delete()
         else:
             print(f"{message.author.display_name} said '{message.content}', jarvi removed")
-            deleted_by_bot.add(message.id)
+            
             await message.delete()
 
             msg = await message.channel.send(f"""Cameron you're ruinin'it
@@ -237,18 +209,14 @@ async def on_message(message):
             await asyncio.sleep(3)
             await msg.delete()
 
-
-    
-    #no badwords
+    # no badwords
     if not message.author.bot and any(word in lower_message for word in banned_words):
         print(f"{message.author.display_name} said '{message.content}', deleted")
-        deleted_by_bot.add(message.id)
-        await message.delete()
+        
         await message.channel.send(f"{message.author.mention} That word isn't allowed")
         return
 
-    
-    #no deadnaming
+    # no deadnaming
     content = message.content
     edited = content
 
@@ -257,23 +225,19 @@ async def on_message(message):
 
     if edited != content:
         print(f"{message.author.display_name} used deadname: '{message.content}', replaced and resent")
-        deleted_by_bot.add(message.id)
+        
         await message.delete()
         await message.channel.send(f"{message.author.mention}: {edited}")
 
-
-
-    #mraow
+    # mraow
     if any(word in lower_message for word in meows) and not message.author.bot:
             await message.channel.send(randcat())
 
-
-
-    #make sure it still processes commands
+    # make sure it still processes commands
     await bot.process_commands(message)
 
 
-#Commands
+# Commands
 @bot.tree.command(name="jarviscommand", description="Repeat your message")
 async def JarvisCommand(interaction: discord.Interaction, message: str):
     await interaction.response.send_message(message)
@@ -282,11 +246,11 @@ async def JarvisCommand(interaction: discord.Interaction, message: str):
 @bot.tree.command(name="setjarvi", description="set the count of jarvi")
 async def SetJarvi(interaction: discord.Interaction, message: int):
     if str(interaction.user.id) in cool_ids:
-        await db.execute("UPDATE jarvis_data SET count = $1 WHERE id = 1;", message)
+        async with pool.acquire() as conn:
+            await conn.execute("UPDATE jarvis_data SET count = $1 WHERE id = 1;", message)
         await interaction.response.send_message(f"Jarvis count set to {message}")
     else:
-        await interaction.response.send_message("you don't have permission for that 😤")
-
+        await interaction.response.send_message("you don't have permission for that")
 
 
 @bot.tree.command(name="jarviscoolcommand", description="cool command")
@@ -328,6 +292,7 @@ async def addbanned(interaction: discord.Interaction, word: str):
     else:
         await interaction.response.send_message("no perms")
 
+
 @bot.tree.command(name="removebanned", description="remove a word from the banned word list")
 async def removebanned(interaction: discord.Interaction, word: str):
     if str(interaction.user.id) in cool_ids:
@@ -336,6 +301,7 @@ async def removebanned(interaction: discord.Interaction, word: str):
     else:
         await interaction.response.send_message("no perms")
 
+
 @bot.tree.command(name="listbanned", description="list banned words")
 async def listbanned(interaction: discord.Interaction):
     banned_words = await load_banned_words()
@@ -343,9 +309,6 @@ async def listbanned(interaction: discord.Interaction):
         await interaction.response.send_message("there are no banned words")
     else:
         await interaction.response.send_message(f"Banned words: {', '.join(banned_words)}")
-
-
-
 
 
 bot.run(token)

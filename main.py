@@ -42,7 +42,6 @@ if you use a dead name the message gets deleted and the bot sends your message b
 **UPTIME**
 *should* turn on at 8am every day and turn off 15 hours later"""
 
-
 #meowlist
 meows = [
     "meow", "mew", "mewo", "meww", "mewww", "mew~", "meww~",
@@ -53,9 +52,7 @@ meows = [
     "reeow", "reow", "rowr", "rawr", "rawrr", "reee", "eeow",
     "hiss", "hsss", "hssss", "murr", "murrr", "murmur",
     "purr", "purrr", "purrrr", "blp", "blep", "blep", "brlp",
-    "mmrow", "mmrrp", "meeeow", "meeeu", "meuuu", "eow", "owww"
-]
-
+    "mmrow", "mmrrp", "meeeow", "meeeu", "meuuu", "eow", "owww" ]
 
 #deadnames
 DEADNAMES = {"george stanley": "Elle",
@@ -65,8 +62,7 @@ DEADNAMES = {"george stanley": "Elle",
              "<:hahageroe:1083754356203077692>": "Elle"
              }
 
-
-#cat gif list
+#generate random cat
 def randcat():
     catgifs = {
         1:"https://tenor.com/view/meow-cute-help-gif-12669267",
@@ -102,10 +98,7 @@ async def load_banned_words():
         print("DB is not connected yet!")
         return []
     rows = await db.fetch("SELECT word FROM banned_words;")
-    return [row["word"] for row in rows]
-
-
-
+    return [row["word"] for row in rows] 
 
 async def add_banned_word(word):
     try:
@@ -115,9 +108,6 @@ async def add_banned_word(word):
 
 async def remove_banned_word(word):
     await db.execute("DELETE FROM banned_words WHERE word = $1;", word.lower())
-
-
-
 
 
 #something to do with slash commands
@@ -131,39 +121,19 @@ cool_ids = "764518265778602004 818561900891471943"
 sans = "<:sans:1362759699669450892>"
 DaddyD = "<:DaddyD:1362761374941315253>"
 
+
+#non slash commands
 bot = commands.Bot(command_prefix="!", intents=intents)
-
-
-#auto turnoff
-utc = timezone(timedelta(0))
-
-# get the current time in UTC
-start_time = datetime.now(utc)
-print("Current time in UTC:", start_time)
-end_time = start_time + timedelta(hours=15)
-print("Planned turnoff at ", end_time, " or if it reaches 11pm")
-
 
 
 jarvis_count = 0
 
 
 @bot.event
-async def on_ready():
-    bot.loop.create_task(bedtime_check())
-    current_time = datetime.now(timezone.utc)
-    desired_start_time = current_time.replace(hour=9, minute=0, second=0, microsecond=0)
-    end_time = start_time + timedelta(hours=15)
-    if current_time > end_time:
-        print( "sleepy")
-        await client.close()
-    if current_time < desired_start_time:
-        print("too early me eepy")
-        await client.close()
-    else:
-        print(f"Logged in as {bot.user}")
+async def on_ready()
+    print(f"Logged in as {bot.user}")
 
-
+       #database setup
     global db
     db = await asyncpg.connect(os.getenv("DATABASE_URL"))
     
@@ -198,11 +168,6 @@ async def on_ready():
         await db.execute("INSERT INTO jarvis_data (id, count) VALUES (1, 0);")
 
 
-    
-
-    
-
-
     #something to do with slash commands
     await bot.tree.sync()
 
@@ -228,30 +193,6 @@ async def on_message_delete(message):
     )
 
     print(f"{author} deleted '{content}' in '#{channel}'")
-
-
-
-#auto shutoff after 15 hours
-@bot.event
-async def shutdown_after_hours(hours):
-    await asyncio.sleep(hours * 3600)  # 15 hours in seconds
-    print("Shutting down bot.")
-    await bot.close()
-
-@bot.event
-async def bedtime_check():
-    await bot.wait_until_ready()
-    while not bot.is_closed():
-        current_time = datetime.now(timezone.utc)
-
-        # Shut down at exactly midnight UTC
-        if current_time.hour == 0:
-            print("me eepy goodnight")
-            await bot.close()
-            return
-
-        await asyncio.sleep(60)  # check once every minute
-
 
 
 @bot.event

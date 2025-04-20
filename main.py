@@ -91,22 +91,26 @@ def randcat():
 banfile = "banned_words.txt"
 
 
-async def load_banned_words():
-
+async def ensure_db_connection():
     global db
-    if db is None:
-        print("DB is not connected yet!")
-        return []
+    if db is None or db.is_closed():
+        db = await asyncpg.connect(os.getenv("DATABASE_URL"))
+
+async def load_banned_words():
+    await ensure_db_connection()
     rows = await db.fetch("SELECT word FROM banned_words;")
-    return [row["word"] for row in rows] 
+    return [row["word"] for row in rows]
+
 
 async def add_banned_word(word):
+    await ensure_db_connection()
     try:
         await db.execute("INSERT INTO banned_words (word) VALUES ($1);", word.lower())
     except asyncpg.UniqueViolationError:
         pass
 
 async def remove_banned_word(word):
+    await ensure_db_connection()
     await db.execute("DELETE FROM banned_words WHERE word = $1;", word.lower())
 
 
@@ -188,6 +192,7 @@ async def on_message(message):
         
             if jarvi_mentioned <= 3:
                 # Increase count in database
+                await ensure_db_connection()
                 await db.execute("UPDATE jarvis_data SET count = count + $1 WHERE id = 1;", jarvi_mentioned)
                 new_count = await db.fetchval("SELECT count FROM jarvis_data WHERE id = 1;")
             
@@ -251,10 +256,11 @@ async def JarvisCommand(interaction: discord.Interaction, message: str):
 @bot.tree.command(name="setjarvi", description="set the count of jarvi")
 async def SetJarvi(interaction: discord.Interaction, message: int):
     if str(interaction.user.id) in cool_ids:
+        await ensure_db_connection()
         await db.execute("UPDATE jarvis_data SET count = $1 WHERE id = 1;", message)
         await interaction.response.send_message(f"Jarvis count set to {message}")
     else:
-        await interaction.response.send_message("you don't have permission for that 😤")
+        await interaction.response.send_message("you don't have permission for that")
 
 
 

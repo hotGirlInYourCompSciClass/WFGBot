@@ -108,14 +108,13 @@ def randcat():
         12: "https://tenor.com/view/gopher-darius-screaming-excited-screaming-gif-9632076301582127705",
         13: "https://tenor.com/view/fnaf-five-nights-at-freddy's-gif-4059222196466761933",
         14: "https://tenor.com/view/circus-baby-cursed-fnaf-gif-18818734",
-        15: "(At Elle's request. I was under orders, I had no choice) https://tenor.com/view/furry-hopon-gif-25273193",
+        15: "(I was under orders, I had no choice) https://tenor.com/view/furry-hopon-gif-25273193",
         16: "https://tenor.com/view/neurosama-explosion-vedal-gif-10953604243590119044",
         17: "Me when rare gif: https://tenor.com/view/yippee-creature-meme-party-yay-gif-4844138631754730183",
         18: "https://tenor.com/view/gaslight-gatekeep-girlboss-gaslight-gatekeep-girlboss-freddy-fazbear-gif-25108236",
         19: "https://tenor.com/view/anime-waifu-dance-gif-25689550",
-        20: "https://tenor.com/view/hazbinhotel-angel-dust-dance-happy-gif-8398732535355678394",
-        21: "Keep meowing :D https://tenor.com/view/niffty-niffty-hazbin-hazbin-hotel-jump-stim-gif-568824074923902625",
-        22: "Me as I keep adding these: https://tenor.com/view/ghostedvpn-hacker-cat-bongo-cat-keyboard-cat-hacker-gif-4373606555250453292"
+        20: "Keep meowing :D https://tenor.com/view/niffty-niffty-hazbin-hazbin-hotel-jump-stim-gif-568824074923902625",
+        21: "Me as I keep adding these: https://tenor.com/view/ghostedvpn-hacker-cat-bongo-cat-keyboard-cat-hacker-gif-4373606555250453292"
     }
     if random.randint(1, 100) >= 95:
         return catgifs[random.randint(1, len(catgifs))]

@@ -96,6 +96,11 @@ banfile = "banned_words.txt"
 deleted_by_bot = set()
 
 async def load_banned_words():
+
+    global db
+    if db is None:
+        print("DB is not connected yet!")
+        return []
     rows = await db.fetch("SELECT word FROM banned_words;")
     return [row["word"] for row in rows]
 

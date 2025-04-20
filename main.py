@@ -69,7 +69,7 @@ DEADNAMES = {"george stanley": "Elle",
              " gs": "E",
              "gsl": "EL",
              "adam": "Ava",
-             "<:hahageroe:1083754356203077692>": "Elle"
+             "<:hahageroe:1083754356203077692>": "Elle",
              }
 
 # generate random cat
@@ -91,7 +91,9 @@ def randcat():
         14: "https://tenor.com/view/cat-cat-meme-cat-hug-cat-kiss-kiss-gif-7995560765945148820",
         15: "https://tenor.com/en-GB/view/filian-embed-fail-gif-27021762", #supposed to be embed fail
         16: "https://tenor.com/view/neuro-sama-neuro-sama-neuro-sama-vtuber-neuro-neuro-vtuber-gif-16392526205380439187",
-        17: "https://tenor.com/view/neuro-neuro-sama-cat-overlord-neuro-sama-gif-9439092095145078224"
+        17: "https://tenor.com/view/neuro-neuro-sama-cat-overlord-neuro-sama-gif-9439092095145078224",
+        18: "https://tenor.com/view/cat-internecion-cube-kirie-gif-20069182",
+        19: "https://tenor.com/view/meme-cat-kitten-gif-17926206283727080180"
     }
     raregifs = {
         1: "https://tenor.com/view/neuro-sama-ai-vtuber-suspicious-dubious-gif-10363453030530375437",
@@ -116,9 +118,18 @@ def randcat():
         20: "Keep meowing :D https://tenor.com/view/niffty-niffty-hazbin-hazbin-hotel-jump-stim-gif-568824074923902625",
         21: "Me as I keep adding these: https://tenor.com/view/ghostedvpn-hacker-cat-bongo-cat-keyboard-cat-hacker-gif-4373606555250453292",
         22: "https://tenor.com/view/i-am-only-one-man's-girl-his-name-is-jesus-christ-belong-to-jesus-jesus-christ-not-until-mariage-gif-16757286860798336335",
-        23: "https://tenor.com/view/matpat-game-theory-jumpscare-gif-17715187260881724719"
+        23: "https://tenor.com/view/matpat-game-theory-jumpscare-gif-17715187260881724719",
+        24: "https://tenor.com/view/wof-wings-of-fire-jambu-wink-animation-meme-gif-13996687301711815570",
+        25: "https://tenor.com/view/inscryption-stoat-total-misplay-card-gif-24910264",
+        26: "https://tenor.com/view/pipe-bomb-miku-pipe-bomb-miku-silly-miku-silly-miku-pipe-bomb-gif-14794310888550215845",
+        27: "https://tenor.com/view/anomalous-activities-gif-24758355",
+        28: "https://tenor.com/view/jesus-ballin-mars-bars-gif-19910027",
+        29: "(Jk keep meowing) https://tenor.com/view/glory-wings-of-fire-wof-rainwing-skywing-gif-3751720425011732308",
+        30: "HelpMySoulIsStuckInTheBot",
+        31: "https://www.youtube.com/@victoriabrides7860",
+        32: "https://tenor.com/view/murder-drones-khan-doorman-khan-murder-drones-doors-i-love-doors-gif-6067845957534950832"
     }
-    if random.randint(1, 100) >= 95:
+    if random.randint(1, 100) >= 90:
         return raregifs[random.randint(1, len(raregifs))]
     else:
         return catgifs[random.randint(1, len(catgifs))]
@@ -275,6 +286,9 @@ async def on_message(message):
             await bot_msg.edit(content="Wait, no... https://tenor.com/en-GB/view/filian-embed-fail-gif-27021762")
             await asyncio.sleep(5)
             await bot_msg.edit(content="https://tenor.com/view/filian-gif-18304054096777899760")
+        if msg == "HelpMySoulIsStuckInTheBot":
+            await asyncio.sleep(3)
+            await message.channel.send("ItsDarkInHere")
 
     # make sure it still processes commands
     await bot.process_commands(message)

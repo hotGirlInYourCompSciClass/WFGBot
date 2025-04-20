@@ -78,10 +78,11 @@ def randcat():
         7: "https://tenor.com/view/gato-gatinho-explos%C3%A3o-bomba-triste-gif-117092895135057467",
         8: "https://tenor.com/view/gato-gif-8519052141498810062",
         9: "https://tenor.com/view/kitty-kittyjump-excited-kitty-meow-meowhyuck-gif-11696392138403281635",
-        10: "https://tenor.com/view/black-sabbath-war-pigs-on-their-knees-the-war-pigs-crawling-cat-meme-gif-832048690152946154"
+        10: "https://tenor.com/view/black-sabbath-war-pigs-on-their-knees-the-war-pigs-crawling-cat-meme-gif-832048690152946154",
+        11: "https://cdn.discordapp.com/attachments/1017831546633334916/1363530849630425108/Screenshot_20250416-125042.png?ex=68065e8f&is=68050d0f&hm=0e907944bb912980e39ce912c320f60afa0c7c4b7fbd2d31ebe706e328c92705&"
     }
     if random.randint(1, 100) != 100:
-        return catgifs[random.randint(1, 10)]
+        return catgifs[random.randint(1, len(catgifs))]
     else:
         if random.randint(1, 2) == 1:
             return "https://tenor.com/view/get-on-team-fortress2-team-fortress2-gif-23556930"
@@ -212,7 +213,6 @@ async def on_message(message):
     # no badwords
     if not message.author.bot and any(word in lower_message for word in banned_words):
         print(f"{message.author.display_name} said '{message.content}', deleted")
-        deleted_by_bot.add(message.id)
         
         await message.channel.send(f"{message.author.mention} That word isn't allowed")
         return

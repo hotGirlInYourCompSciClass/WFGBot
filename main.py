@@ -29,7 +29,8 @@ meows = [
     "reeow", "reow", "rowr", "rawr", "rawrr", "reee", "eeow",
     "hiss", "hsss", "hssss", "murr", "murrr", "murmur",
     "purr", "purrr", "purrrr", "blp", "blep", "meoww", "brlp",
-    "mmrow", "mmrrp", "meeeow", "meeeu", "meuuu", "eow", "owww"
+    "mmrow", "mmrrp", "meeeow", "meeeu", "meuuu", "eow", "owww",
+    "UwU", "Jamie"
 ]
 
 
@@ -84,7 +85,8 @@ def randcat():
         8: "https://tenor.com/view/gato-gif-8519052141498810062",
         9: "https://tenor.com/view/kitty-kittyjump-excited-kitty-meow-meowhyuck-gif-11696392138403281635",
         10: "https://tenor.com/view/black-sabbath-war-pigs-on-their-knees-the-war-pigs-crawling-cat-meme-gif-832048690152946154",
-        11: "https://cdn.discordapp.com/attachments/1017831546633334916/1363530849630425108/Screenshot_20250416-125042.png?ex=68065e8f&is=68050d0f&hm=0e907944bb912980e39ce912c320f60afa0c7c4b7fbd2d31ebe706e328c92705&"
+        11: "https://cdn.discordapp.com/attachments/1017831546633334916/1363530849630425108/Screenshot_20250416-125042.png?ex=68065e8f&is=68050d0f&hm=0e907944bb912980e39ce912c320f60afa0c7c4b7fbd2d31ebe706e328c92705&",
+        12: "https://tenor.com/view/neuro-sama-evil-neuro-bounce-vedal987-neuro-gif-11513855482341596679"
     }
     if random.randint(1, 100) != 100:
         return catgifs[random.randint(1, len(catgifs))]

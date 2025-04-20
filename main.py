@@ -249,7 +249,6 @@ async def on_message(message):
 
     
     #no deadnaming
-        
     content = message.content
     edited = content
 
@@ -270,7 +269,7 @@ async def on_message(message):
 
 
 
-#make sure it still processes commands
+    #make sure it still processes commands
     await bot.process_commands(message)
 
 

@@ -269,12 +269,12 @@ async def on_message(message):
         bot_msg = await message.channel.send(msg)
         if msg == "(At Elle's request. I was under orders, I had no choice) https://tenor.com/view/furry-hopon-gif-25273193":
             await asyncio.sleep(3)
-            await bot_msg.edit("https://tenor.com/view/furry-hopon-gif-25273193")
+            await bot_msg.edit(content="https://tenor.com/view/furry-hopon-gif-25273193")
         if msg == "https://tenor.com/en-GB/view/filian-embed-fail-gif-27021762":
             await asyncio.sleep(5)
-            await bot_msg.edit("Wait, no... https://tenor.com/en-GB/view/filian-embed-fail-gif-27021762")
+            await bot_msg.edit(content="Wait, no... https://tenor.com/en-GB/view/filian-embed-fail-gif-27021762")
             await asyncio.sleep(5)
-            await bot_msg.edit("https://tenor.com/view/filian-gif-18304054096777899760")
+            await bot_msg.edit(content="https://tenor.com/view/filian-gif-18304054096777899760")
 
     # make sure it still processes commands
     await bot.process_commands(message)

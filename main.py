@@ -240,7 +240,7 @@ async def on_message(message):
 
     
     #no badwords
-    if any(word in lower_message for word in banned_words) and not message.author.bot:
+    if not message.author.bot and any(word in lower_message for word in banned_words):
         print(f"{message.author.display_name} said '{message.content}', deleted")
         deleted_by_bot.add(message.id)
         await message.delete()

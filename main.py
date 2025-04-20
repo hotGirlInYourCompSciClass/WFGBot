@@ -150,6 +150,7 @@ async def on_ready():
     desired_start_time = current_time.replace(hour=9, minute=0, second=0, microsecond=0)
     end_time = start_time + timedelta(hours=15)
     if current_time > end_time:
+        print( "sleepy")
         await client.close()
     if current_time < desired_start_time:
         print("too early me eepy")

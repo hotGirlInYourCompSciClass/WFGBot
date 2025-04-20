@@ -296,8 +296,6 @@ async def on_message(message):
 
     
     #no badwords
-    if any(word in message.content.lower() for word in banned_words):
-        return
 
 
     if any(word in message.content.lower() for word in banned_words):

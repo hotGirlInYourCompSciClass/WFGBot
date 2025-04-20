@@ -18,8 +18,8 @@ if token is None:
     raise ValueError("token not found in environment variables")
 
 # Features docs
-features = """**COUNTER**
-if jarvis is mentioned add 1 to jarvis_count.txt
+features = """**JARVI COUNTER**
+if jarvis is mentioned add 1 to jarvis count
 up to and including 3 jarvi can be in one message
 if there are more than 3 the message is deleted and the jarvi are not counted
 if cameron says jarvis it deletes the message and says "Cameron you're ruinin'it" then deletes that after 3 seconds
@@ -32,7 +32,7 @@ also if someone says any sort of cat noise it sends a random cat gif from a sele
 /setjarvi - admins only - lets you set the number of jarvi
 /listfeatures - prints this list
 /checkperms - lists the permissions the bot has
-/kys - admins only - kill the bot and it stops the script completely 
+/kys - admins only - kill the bot by stopping the script completely 
 /listbanned - lists banned words
 /addbanned - admins only - allows you to add to banned words list
 /removebanned - admins only - allows you to remove words from banned words list

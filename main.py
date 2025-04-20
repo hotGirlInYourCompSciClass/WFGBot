@@ -94,6 +94,7 @@ banfile = "banned_words.txt"
 
 
 async def ensure_db_connection():
+<<<<<<< HEAD
     global pool
     if pool is None:
         pool = await asyncpg.create_pool(dsn=os.getenv("DATABASE_URL"))
@@ -103,11 +104,21 @@ async def load_banned_words():
     await ensure_db_connection()
     async with pool.acquire() as conn:
         rows = await conn.fetch("SELECT word FROM banned_words;")
+=======
+    global db
+    if db is None or db.is_closed():
+        db = await asyncpg.connect(os.getenv("DATABASE_URL"))
+
+async def load_banned_words():
+    await ensure_db_connection()
+    rows = await db.fetch("SELECT word FROM banned_words;")
+>>>>>>> f85d2126a5eda4470ba78d0e0983df2ad6bd94ce
     return [row["word"] for row in rows]
 
 
 async def add_banned_word(word):
     await ensure_db_connection()
+<<<<<<< HEAD
     async with pool.acquire() as conn:
         try:
             await conn.execute("INSERT INTO banned_words (word) VALUES ($1);", word.lower())
@@ -119,6 +130,16 @@ async def remove_banned_word(word):
     await ensure_db_connection()
     async with pool.acquire() as conn:
         await conn.execute("DELETE FROM banned_words WHERE word = $1;", word.lower())
+=======
+    try:
+        await db.execute("INSERT INTO banned_words (word) VALUES ($1);", word.lower())
+    except asyncpg.UniqueViolationError:
+        pass
+
+async def remove_banned_word(word):
+    await ensure_db_connection()
+    await db.execute("DELETE FROM banned_words WHERE word = $1;", word.lower())
+>>>>>>> f85d2126a5eda4470ba78d0e0983df2ad6bd94ce
 
 
 # something to do with slash commands
@@ -163,15 +184,24 @@ async def on_ready():
             );
         """)
 
+<<<<<<< HEAD
         # make sure there's a row with id = 1
         existing = await conn.fetchval("SELECT count FROM jarvis_data WHERE id = 1;")
         if existing is None:
             await conn.execute("INSERT INTO jarvis_data (id, count) VALUES (1, 0);")
+=======
+   
+>>>>>>> f85d2126a5eda4470ba78d0e0983df2ad6bd94ce
 
     # something to do with slash commands
     await bot.tree.sync()
 
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> f85d2126a5eda4470ba78d0e0983df2ad6bd94ce
 @bot.event
 async def on_message(message):
     lower_message = message.content.lower()
@@ -190,10 +220,17 @@ async def on_message(message):
         
             if jarvi_mentioned <= 3:
                 # Increase count in database
+<<<<<<< HEAD
                 async with pool.acquire() as conn:
                     await conn.execute("UPDATE jarvis_data SET count = count + $1 WHERE id = 1;", jarvi_mentioned)
                     new_count = await conn.fetchval("SELECT count FROM jarvis_data WHERE id = 1;")
                 
+=======
+                await ensure_db_connection()
+                await db.execute("UPDATE jarvis_data SET count = count + $1 WHERE id = 1;", jarvi_mentioned)
+                new_count = await db.fetchval("SELECT count FROM jarvis_data WHERE id = 1;")
+            
+>>>>>>> f85d2126a5eda4470ba78d0e0983df2ad6bd94ce
                 await message.channel.send(f"x{new_count}")
             else:
                 print(f"{message.author.display_name} said '{message.content}', deleted")
@@ -212,6 +249,10 @@ async def on_message(message):
     # no badwords
     if not message.author.bot and any(word in lower_message for word in banned_words):
         print(f"{message.author.display_name} said '{message.content}', deleted")
+<<<<<<< HEAD
+=======
+        deleted_by_bot.add(message.id)
+>>>>>>> f85d2126a5eda4470ba78d0e0983df2ad6bd94ce
         
         await message.channel.send(f"{message.author.mention} That word isn't allowed")
         return
@@ -246,11 +287,20 @@ async def JarvisCommand(interaction: discord.Interaction, message: str):
 @bot.tree.command(name="setjarvi", description="set the count of jarvi")
 async def SetJarvi(interaction: discord.Interaction, message: int):
     if str(interaction.user.id) in cool_ids:
+<<<<<<< HEAD
         async with pool.acquire() as conn:
             await conn.execute("UPDATE jarvis_data SET count = $1 WHERE id = 1;", message)
         await interaction.response.send_message(f"Jarvis count set to {message}")
     else:
         await interaction.response.send_message("you don't have permission for that")
+=======
+        await ensure_db_connection()
+        await db.execute("UPDATE jarvis_data SET count = $1 WHERE id = 1;", message)
+        await interaction.response.send_message(f"Jarvis count set to {message}")
+    else:
+        await interaction.response.send_message("you don't have permission for that")
+
+>>>>>>> f85d2126a5eda4470ba78d0e0983df2ad6bd94ce
 
 
 @bot.tree.command(name="jarviscoolcommand", description="cool command")

@@ -91,8 +91,6 @@ def randcat():
 banfile = "banned_words.txt"
 
 
-deleted_by_bot = set()
-
 async def load_banned_words():
 
     global db
@@ -147,15 +145,7 @@ async def on_ready():
         );
     """)
 
-    await db.execute("""
-    CREATE TABLE IF NOT EXISTS deleted_messages (
-        id SERIAL PRIMARY KEY,
-        author TEXT,
-        content TEXT,
-        channel TEXT,
-        timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-        );
-    """)
+   
 
     await db.execute("""
     CREATE TABLE IF NOT EXISTS banned_words (
@@ -225,11 +215,11 @@ async def on_message(message):
                 await message.channel.send(f"x{new_count}")
             else:
                 print(f"{message.author.display_name} said '{message.content}', deleted")
-                deleted_by_bot.add(message.id)
+                
                 await message.delete()
         else:
             print(f"{message.author.display_name} said '{message.content}', jarvi removed")
-            deleted_by_bot.add(message.id)
+            
             await message.delete()
 
             msg = await message.channel.send(f"""Cameron you're ruinin'it
@@ -243,7 +233,7 @@ async def on_message(message):
     if not message.author.bot and any(word in lower_message for word in banned_words):
         print(f"{message.author.display_name} said '{message.content}', deleted")
         deleted_by_bot.add(message.id)
-        await message.delete()
+        
         await message.channel.send(f"{message.author.mention} That word isn't allowed")
         return
 
@@ -257,7 +247,7 @@ async def on_message(message):
 
     if edited != content:
         print(f"{message.author.display_name} used deadname: '{message.content}', replaced and resent")
-        deleted_by_bot.add(message.id)
+        
         await message.delete()
         await message.channel.send(f"{message.author.mention}: {edited}")
 

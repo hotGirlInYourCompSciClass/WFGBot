@@ -281,7 +281,6 @@ async def kys(interaction: discord.Interaction):
     if str(interaction.user.id) in cool_ids:
         await interaction.response.send_message(r"\:(")
         await bot.close()
-        hjbjbh
     else:
         await interaction.response.send_message("frick off broski")
 
@@ -311,6 +310,5 @@ async def listbanned(interaction: discord.Interaction):
         await interaction.response.send_message("there are no banned words")
     else:
         await interaction.response.send_message(f"Banned words: {', '.join(banned_words)}")
-
 
 bot.run(token)

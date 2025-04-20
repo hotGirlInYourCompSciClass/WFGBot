@@ -13,6 +13,8 @@ db = None
 
 #discord token from .env
 token = os.getenv("DISCORD_TOKEN")
+if token is None:
+    raise ValueError("token not found in environment variables")
 
 #Features docs
 features = """**COUNTER**

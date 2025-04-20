@@ -228,7 +228,7 @@ async def on_message(message):
                     await conn.execute("UPDATE jarvis_data SET count = count + $1 WHERE id = 1;", jarvi_mentioned)
                     new_count = await conn.fetchval("SELECT count FROM jarvis_data WHERE id = 1;")
                 
-                await message.channel.send(f"x{new_count} https://tenor.com/view/benjimemes-gif-1379171232988867990")
+                await message.channel.send(f"x{new_count}")
             else:
                 print(f"{message.author.display_name} said '{message.content}', deleted")
                 

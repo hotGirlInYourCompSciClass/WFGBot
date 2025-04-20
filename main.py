@@ -17,6 +17,22 @@ token = os.getenv("DISCORD_TOKEN")
 if token is None:
     raise ValueError("token not found in environment variables")
 
+
+
+# meowlist
+meows = [
+    "meow", "mew", "mewo", "meww", "mewww", "mew~", "meww~",
+    "mraow", "mrow", "mrrp", "mrp", "mrrrp", "mrrrow", "mraww",
+    "nya", "nyan", "nyah", "nyaa", "nyaaa", "nnya", "nnyah",
+    "prrt", "prr", "brrt", "brrrp", "brrp", "rrp", "rrrp",
+    "chirp", "chirr", "mewl", "mree", "mrree", "mrrreeow",
+    "reeow", "reow", "rowr", "rawr", "rawrr", "reee", "eeow",
+    "hiss", "hsss", "hssss", "murr", "murrr", "murmur",
+    "purr", "purrr", "purrrr", "blp", "blep", "meoww", "brlp",
+    "mmrow", "mmrrp", "meeeow", "meeeu", "meuuu", "eow", "owww"
+]
+
+
 # Features docs
 features = """**JARVI COUNTER**
 if jarvis is mentioned add 1 to jarvis count
@@ -36,6 +52,7 @@ also if someone says any sort of cat noise it sends a random cat gif from a sele
 /listbanned - lists banned words
 /addbanned - admins only - allows you to add to banned words list
 /removebanned - admins only - allows you to remove words from banned words list
+/mewo - lists cat noises
 
 **FILTERING**
 if you use a word in the banned words list it gets deleted and you're told that word isn't allowed
@@ -45,18 +62,6 @@ if you use a dead name the message gets deleted and the bot sends your message b
 **UPTIME**
 *should* be on at all times"""
 
-# meowlist
-meows = [
-    "meow", "mew", "mewo", "meww", "mewww", "mew~", "meww~",
-    "mraow", "mrow", "mrrp", "mrp", "mrrrp", "mrrrow", "mraww",
-    "nya", "nyan", "nyah", "nyaa", "nyaaa", "nnya", "nnyah",
-    "prrt", "prr", "brrt", "brrrp", "brrp", "rrp", "rrrp",
-    "chirp", "chirr", "mewl", "mree", "mrree", "mrrreeow",
-    "reeow", "reow", "rowr", "rawr", "rawrr", "reee", "eeow",
-    "hiss", "hsss", "hssss", "murr", "murrr", "murmur",
-    "purr", "purrr", "purrrr", "blp", "blep", "meoww", "brlp",
-    "mmrow", "mmrrp", "meeeow", "meeeu", "meuuu", "eow", "owww"
-]
 
 # deadnames
 DEADNAMES = {"george stanley": "Elle",
@@ -210,14 +215,14 @@ async def on_message(message):
             await asyncio.sleep(3)
             await msg.delete()
 
-    # no badwords
+    #! no badwords
     if not message.author.bot and any(word in lower_message for word in banned_words):
         print(f"{message.author.display_name} said '{message.content}', deleted")
         
         await message.channel.send(f"{message.author.mention} That word isn't allowed")
         return
 
-    # no deadnaming
+    #! no deadnaming
     content = message.content
     edited = content
 
@@ -310,5 +315,9 @@ async def listbanned(interaction: discord.Interaction):
         await interaction.response.send_message("there are no banned words")
     else:
         await interaction.response.send_message(f"Banned words: {', '.join(banned_words)}")
+
+@bot.tree.command(name="mewo", description="list cat noises")
+async def mewo(interaction: discord.Interaction):
+    await interaction.response.send_message(meows, ephemeral=True)
 
 bot.run(token)

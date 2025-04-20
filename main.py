@@ -42,7 +42,7 @@ if you use a dead name the message gets deleted and the bot sends your message b
 (unless you say george because cameron is pissy like that)
 
 **UPTIME**
-*should* turn on at 8am every day and turn off 15 hours later"""
+*should* be on at all times"""
 
 #meowlist
 meows = [
@@ -240,9 +240,7 @@ async def on_message(message):
 
     
     #no badwords
-
-
-    if any(word in lower_message for word in banned_words):
+    if any(word in lower_message for word in banned_words) and not message.author.bot:
         print(f"{message.author.display_name} said '{message.content}', deleted")
         deleted_by_bot.add(message.id)
         await message.delete()

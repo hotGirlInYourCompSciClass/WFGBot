@@ -53,7 +53,7 @@ meows = [
     "chirp", "chirr", "mewl", "mree", "mrree", "mrrreeow",
     "reeow", "reow", "rowr", "rawr", "rawrr", "reee", "eeow",
     "hiss", "hsss", "hssss", "murr", "murrr", "murmur",
-    "purr", "purrr", "purrrr", "blp", "blep", "blep", "brlp",
+    "purr", "purrr", "purrrr", "blp", "blep", "meoww", "brlp",
     "mmrow", "mmrrp", "meeeow", "meeeu", "meuuu", "eow", "owww" ]
 
 #deadnames
@@ -199,6 +199,7 @@ async def on_message_delete(message):
 
 @bot.event
 async def on_message(message):
+    lower_message = message.content.lower()
 
 
 
@@ -212,9 +213,9 @@ async def on_message(message):
         return
 
     #if jarvis is mentioned
-    if "jarvis" in message.content.lower():
+    if "jarvis" in lower_message:
         if str(message.author.id) != "1034087251199656047":
-            jarvi_mentioned = message.content.lower().count("jarvis")
+            jarvi_mentioned = lower_message.count("jarvis")
         
             if jarvi_mentioned <= 3:
                 # Increase count in database
@@ -241,7 +242,7 @@ async def on_message(message):
     #no badwords
 
 
-    if any(word in message.content.lower() for word in banned_words):
+    if any(word in lower_message for word in banned_words):
         print(f"{message.author.display_name} said '{message.content}', deleted")
         deleted_by_bot.add(message.id)
         await message.delete()
@@ -255,8 +256,7 @@ async def on_message(message):
     edited = content
 
     for deadname, corrected in DEADNAMES.items():
-        if deadname.lower() in content.lower():
-            edited = edited.replace(deadname, corrected)
+        edited = re.sub(re.escape(deadname), corrected, edited, flags=re.IGNORECASE)
 
     if edited != content:
         print(f"{message.author.display_name} used deadname: '{message.content}', replaced and resent")
@@ -264,20 +264,12 @@ async def on_message(message):
         await message.delete()
         await message.channel.send(f"{message.author.mention}: {edited}")
 
-        
 
 
-    
-
-        
-
-
-    
-            
-    if message.author.bot:
-        return
-    
     #mraow
+    if any(word in lower_message for word in meows) and not message.author.bot:
+            await message.channel.send(randcat())
+
 
 
 #make sure it still processes commands

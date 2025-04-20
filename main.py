@@ -164,27 +164,6 @@ async def on_ready():
     await bot.tree.sync()
 
 
-@bot.event
-async def on_message_delete(message):
-    if message.id in deleted_by_bot:
-        deleted_by_bot.remove(message.id)
-        return
-
-    author = str(message.author)
-    content = message.content
-    channel = str(message.channel)
-
-    # Optional: Skip logging empty messages (e.g., just an embed)
-    if not content.strip():
-        return
-
-    # Save to DB
-    await db.execute(
-        "INSERT INTO deleted_messages (author, content, channel) VALUES ($1, $2, $3);",
-        author, content, channel
-    )
-
-    print(f"{author} deleted '{content}' in '#{channel}'")
 
 
 @bot.event

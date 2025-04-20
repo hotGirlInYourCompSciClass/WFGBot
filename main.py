@@ -117,9 +117,9 @@ def randcat():
         21: "Me as I keep adding these: https://tenor.com/view/ghostedvpn-hacker-cat-bongo-cat-keyboard-cat-hacker-gif-4373606555250453292"
     }
     if random.randint(1, 100) >= 95:
-        return catgifs[random.randint(1, len(catgifs))]
-    else:
         return raregifs[random.randint(1, len(raregifs))]
+    else:
+        return catgifs[random.randint(1, len(catgifs))]
 
 # Banned words file
 banfile = "banned_words.txt"

@@ -281,6 +281,7 @@ async def kys(interaction: discord.Interaction):
     if str(interaction.user.id) in cool_ids:
         await interaction.response.send_message(r"\:(")
         await bot.close()
+        hjbjbh
     else:
         await interaction.response.send_message("frick off broski")
 

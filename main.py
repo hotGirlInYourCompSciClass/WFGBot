@@ -39,8 +39,8 @@ meows = [
 features = """**JARVI COUNTER**
 if jarvis is mentioned add 1 to jarvis count
 up to and including 3 jarvi can be in one message
-if there are more than 3 the message is deleted and the jarvi are not counted
-if cameron says jarvis it deletes the message and says "Cameron you're ruinin'it" then deletes that after 3 seconds
+if there are more than 3, only 3 are counted
+if cameron says jarvis it says "Cameron you're ruinin'it" then deletes that after 3 seconds
 
 also if someone says any sort of cat noise it sends a random cat gif from a selection of 15+ or 1/100 chance for one of 30+ secret gif :shushing_face:
 
@@ -62,7 +62,7 @@ if you use a dead name the message gets deleted and the bot sends your message b
 (unless you say george because cameron is pissy like that)
 
 **UPTIME**
-*should* be on at all times"""
+*should* be on at all times, but might not be due to transphobes spamming deadnames"""
 
 
 # deadnames
@@ -70,7 +70,7 @@ DEADNAMES = {"george stanley": "Elle",
              " gs": "E",
              "gsl": "EL",
              "adam": "Ava",
-             "<:hahageroe:1083754356203077692>": "Elle",
+             "<:hahageroe:1083754356203077692>": "Elle"
              }
 
 # generate random cat
@@ -246,16 +246,13 @@ async def on_message(message):
                 
                 await message.channel.send(f"x{new_count}")
             else:
-                print(f"{message.author.display_name} said '{message.content}', deleted")
+                async with pool.acquire() as conn:
+                    await conn.execute("UPDATE jarvis_data SET count = count + $1 WHERE id = 1;", 3)
+                    new_count = await conn.fetchval("SELECT count FROM jarvis_data WHERE id = 1;")
                 
-                await message.delete()
+                await message.channel.send(f"x{new_count}")
         else:
-            print(f"{message.author.display_name} said '{message.content}', jarvi removed")
-            
-            await message.delete()
-
-            msg = await message.channel.send(f"""Cameron you're ruinin'it
-            {message.author.mention}: {message.content.replace("jarvis", "")}""")
+            msg = await message.channel.send("Cameron you're ruinin'it")
             await asyncio.sleep(3)
             await msg.delete()
 

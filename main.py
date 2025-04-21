@@ -277,7 +277,7 @@ async def on_message(message):
     if edited != content:
         print(f"{message.author.display_name} used deadname: '{message.content}', replaced and resent")
         
-        await message.author.send(f"please refrain from using that name, **{name}** is preferred)
+        await message.author.send(f"please refrain from using that name, **{name}** is preferred")
 
     # mraow
     if any(word in lower_message for word in meows) and not message.author.bot:

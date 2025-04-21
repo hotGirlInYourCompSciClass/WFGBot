@@ -119,23 +119,23 @@ def randcat():
         21: "Me as I keep adding these: https://tenor.com/view/ghostedvpn-hacker-cat-bongo-cat-keyboard-cat-hacker-gif-4373606555250453292",
         22: "https://tenor.com/view/i-am-only-one-man's-girl-his-name-is-jesus-christ-belong-to-jesus-jesus-christ-not-until-mariage-gif-16757286860798336335",
         23: "https://tenor.com/view/matpat-game-theory-jumpscare-gif-17715187260881724719",
-        24: "https://tenor.com/view/wof-wings-of-fire-jambu-wink-animation-meme-gif-13996687301711815570",
-        25: "https://tenor.com/view/inscryption-stoat-total-misplay-card-gif-24910264",
-        26: "https://tenor.com/view/pipe-bomb-miku-pipe-bomb-miku-silly-miku-silly-miku-pipe-bomb-gif-14794310888550215845",
-        27: "https://tenor.com/view/anomalous-activities-gif-24758355",
-        28: "https://tenor.com/view/jesus-ballin-mars-bars-gif-19910027",
-        29: "(Jk keep meowing) https://tenor.com/view/glory-wings-of-fire-wof-rainwing-skywing-gif-3751720425011732308",
-        30: "HelpMySoulIsStuckInTheBot",
-        31: "https://www.youtube.com/@victoriabrides7860",
-        32: "https://tenor.com/view/murder-drones-khan-doorman-khan-murder-drones-doors-i-love-doors-gif-6067845957534950832"
+        24: "https://tenor.com/view/inscryption-stoat-total-misplay-card-gif-24910264",
+        25: "https://tenor.com/view/pipe-bomb-miku-pipe-bomb-miku-silly-miku-silly-miku-pipe-bomb-gif-14794310888550215845",
+        26: "https://tenor.com/view/anomalous-activities-gif-24758355",
+        27: "https://tenor.com/view/jesus-ballin-mars-bars-gif-19910027",
+        28: "(Jk keep meowing) https://tenor.com/view/glory-wings-of-fire-wof-rainwing-skywing-gif-3751720425011732308",
+        29: "HelpMySoulIsStuckInTheBot",
+        30: "https://www.youtube.com/@victoriabrides7860",
+        31: "https://tenor.com/view/murder-drones-khan-doorman-khan-murder-drones-doors-i-love-doors-gif-6067845957534950832"
     }
+
+
     if random.randint(1, 100) >= 90:
         return raregifs[random.randint(1, len(raregifs))]
+
     else:
         return catgifs[random.randint(1, len(catgifs))]
 
-# Banned words file
-banfile = "banned_words.txt"
 
 
 async def ensure_db_connection():

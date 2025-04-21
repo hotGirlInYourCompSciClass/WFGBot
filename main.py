@@ -329,7 +329,7 @@ async def checkperms(interaction: discord.Interaction):
 
 @bot.tree.command(name="listfeatures", description="view feature list")
 async def listfeatures(interaction: discord.Interaction):
-    await interaction.response.send_message(features)
+    await interaction.response.send_message(features, ephemeral=true)
 
 
 @bot.tree.command(name="kys", description="stop the script from running")

@@ -30,7 +30,8 @@ meows = [
     "hiss", "hsss", "hssss", "murr", "murrr", "murmur",
     "purr", "purrr", "purrrr", "blp", "blep", "meoww", "brlp",
     "mmrow", "mmrrp", "meeeow", "meeeu", "meuuu", "eow", "owww",
-    "UwU", "Jamie"
+    "UwU", "Jamie", ":cat:",":smiley_cat:",":smile_cat:",":joy_cat:",":heart_eyes_cat:",
+    ":smirk_cat:",":kissing_cat:",":scream_cat:",":crying_cat_face:",":pouting_cat:"
 ]
 
 
@@ -41,7 +42,7 @@ up to and including 3 jarvi can be in one message
 if there are more than 3 the message is deleted and the jarvi are not counted
 if cameron says jarvis it deletes the message and says "Cameron you're ruinin'it" then deletes that after 3 seconds
 
-also if someone says any sort of cat noise it sends a random cat gif from a selection of 10 or 1/100 chance for secret gif :shushing_face:
+also if someone says any sort of cat noise it sends a random cat gif from a selection of 15+ or 1/100 chance for one of 30+ secret gif :shushing_face:
 
 **COMMANDS**
 /jarviscommand - repeats what you say to it
@@ -134,7 +135,7 @@ def randcat():
     }
 
 
-    if random.randint(1, 100) >= 90:
+    if random.randint(1, 500) >= 500:
         return raregifs[random.randint(1, len(raregifs))]
 
     else:

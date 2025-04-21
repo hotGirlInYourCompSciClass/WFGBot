@@ -262,21 +262,22 @@ async def on_message(message):
     if not message.author.bot and any(word in lower_message for word in banned_words):
         print(f"{message.author.display_name} said '{message.content}', deleted")
         
-        await message.channel.send(f"{message.author.mention} That word isn't allowed")
+        await message.author.send(f"{message.author.mention} That word isn't allowed and can be extremely triggering for people. please avoid using it in future.")
         return
 
     #! no deadnaming
     content = message.content
     edited = content
+    name = None 
 
     for deadname, corrected in DEADNAMES.items():
+        name = corrected
         edited = re.sub(re.escape(deadname), corrected, edited, flags=re.IGNORECASE)
 
     if edited != content:
         print(f"{message.author.display_name} used deadname: '{message.content}', replaced and resent")
         
-        await message.delete()
-        await message.channel.send(f"{message.author.mention}: {edited}")
+        await message.author.send("please refrain from using that name, **{name}** is preferred)
 
     # mraow
     if any(word in lower_message for word in meows) and not message.author.bot:

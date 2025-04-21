@@ -94,7 +94,9 @@ def randcat():
         16: "https://tenor.com/view/neuro-sama-neuro-sama-neuro-sama-vtuber-neuro-neuro-vtuber-gif-16392526205380439187",
         17: "https://tenor.com/view/neuro-neuro-sama-cat-overlord-neuro-sama-gif-9439092095145078224",
         18: "https://tenor.com/view/cat-internecion-cube-kirie-gif-20069182",
-        19: "https://tenor.com/view/meme-cat-kitten-gif-17926206283727080180"
+        19: "https://tenor.com/view/meme-cat-kitten-gif-17926206283727080180",
+        20: "https://www.youtube.com/@Giraffeio99/videos",
+        21: "https://discord.gg/qmNy5wGJdQ"
     }
     raregifs = {
         1: "https://tenor.com/view/neuro-sama-ai-vtuber-suspicious-dubious-gif-10363453030530375437",
@@ -281,9 +283,6 @@ async def on_message(message):
     if any(word in lower_message for word in meows) and not message.author.bot:
         msg = randcat()
         bot_msg = await message.channel.send(msg)
-        if msg == "(At Elle's request. I was under orders, I had no choice) https://tenor.com/view/furry-hopon-gif-25273193":
-            await asyncio.sleep(3)
-            await bot_msg.edit(content="https://tenor.com/view/furry-hopon-gif-25273193")
         if msg == "https://tenor.com/en-GB/view/filian-embed-fail-gif-27021762":
             await asyncio.sleep(5)
             await bot_msg.edit(content="Wait, no... https://tenor.com/en-GB/view/filian-embed-fail-gif-27021762")

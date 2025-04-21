@@ -43,7 +43,7 @@ up to and including 3 jarvi can be in one message
 if there are more than 3, only 3 are counted
 if cameron says jarvis it says "Cameron you're ruinin'it" then deletes that after 3 seconds
 
-also if someone says any sort of cat noise it sends a random cat gif from a selection of 15+ or 1/100 chance for one of 30+ secret gif :shushing_face:
+also if someone says any sort of cat noise it sends a random cat gif from a selection of 30+ or 1/100 chance for one of 35+ secret gif :shushing_face:
 
 **COMMANDS**
 /jarviscommand - repeats what you say to it
@@ -96,9 +96,20 @@ def randcat():
         17: "https://tenor.com/view/neuro-neuro-sama-cat-overlord-neuro-sama-gif-9439092095145078224",
         18: "https://tenor.com/view/cat-internecion-cube-kirie-gif-20069182",
         19: "https://tenor.com/view/meme-cat-kitten-gif-17926206283727080180",
-        20: "https://www.youtube.com/@Giraffeio99/videos",
-        21: "https://discord.gg/qmNy5wGJdQ",
-        22: "https://youtube.com/clip/UgkxxILnBNn2PxOe38mDHKUl1WxTQyUOqzbX?si=g6YdvIczfGcXi6JF"
+        20: "Subscribe for sweaty furry https://www.youtube.com/@Giraffeio99/videos",
+        21: "Furry discord server: https://discord.gg/qmNy5wGJdQ",
+        22: "Anonymous furry on the Jarvis allegations: https://youtube.com/clip/UgkxxILnBNn2PxOe38mDHKUl1WxTQyUOqzbX?si=g6YdvIczfGcXi6JF",
+        23: "https://tenor.com/view/hello-hi-cute-kitten-cat-gif-19842512",
+        24: "https://tenor.com/en-GB/view/cat-embed-fail-embed-fail-wigo-gif-26317586", #supposed to be embed fail
+        25: "https://tenor.com/view/miau-golden-tiger-golden-tiger-meow-gif-938667685281764883",
+        26: "https://tenor.com/view/filian-spin-caption-filipino-filipino-boy-gif-4839661943905223696",
+        27: "https://tenor.com/view/fire-anime-girl-anime-girl-fire-filian-gif-9366180792159601971",
+        28: "Me when people spam meows: https://tenor.com/view/filian-gif-12629105056256972783",
+        29: "https://tenor.com/view/neuro-sama-brush-xerxes-gif-228084778687217703",
+        30: "https://tenor.com/view/neuro-sama-neuro-sama-wink-gif-9603454422488515145",
+        31: "https://tenor.com/view/frog-head-neuro-wink-gif-6355964661669756927",
+        32: "https://tenor.com/view/evil-neuro-sama-singing-gif-6710477214073631522",
+        33: "https://www.youtube.com/watch?v=jWWBML-5S94"
     }
     raregifs = {
         1: "https://tenor.com/view/neuro-sama-ai-vtuber-suspicious-dubious-gif-10363453030530375437",
@@ -135,7 +146,11 @@ def randcat():
         32: "https://tenor.com/view/spinning-spin-rotate-rotating-twirl-gif-27369778",
         33: "https://tenor.com/view/barotrauma-gif-24233534",
         34: "https://tenor.com/view/lethal-company-gaming-gamer-dance-jig-jiggy-gif-16548737736878595145",
-        35: "https://tenor.com/view/war-gif-991293921595200744"
+        35: "https://tenor.com/view/war-gif-991293921595200744",
+        36: "https://www.youtube.com/watch?v=KDTddjForAw",
+        37: "https://www.youtube.com/watch?v=ZbcTZB6DuxY",
+        38: "Peak https://www.youtube.com/@Neurosama",
+        39: "https://www.youtube.com/watch?v=Y0KrbiAtAJI"
     }
 
 

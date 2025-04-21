@@ -126,7 +126,11 @@ def randcat():
         28: "(Jk keep meowing) https://tenor.com/view/glory-wings-of-fire-wof-rainwing-skywing-gif-3751720425011732308",
         29: "HelpMySoulIsStuckInTheBot",
         30: "https://www.youtube.com/@victoriabrides7860",
-        31: "https://tenor.com/view/murder-drones-khan-doorman-khan-murder-drones-doors-i-love-doors-gif-6067845957534950832"
+        31: "https://tenor.com/view/murder-drones-khan-doorman-khan-murder-drones-doors-i-love-doors-gif-6067845957534950832",
+        32: "https://tenor.com/view/spinning-spin-rotate-rotating-twirl-gif-27369778",
+        33: "https://tenor.com/view/barotrauma-gif-24233534",
+        34: "https://tenor.com/view/lethal-company-gaming-gamer-dance-jig-jiggy-gif-16548737736878595145",
+        35: "https://tenor.com/view/war-gif-991293921595200744"
     }
 
 

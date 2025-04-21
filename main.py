@@ -105,7 +105,7 @@ def randcat():
         25: "https://tenor.com/view/miau-golden-tiger-golden-tiger-meow-gif-938667685281764883",
         26: "https://tenor.com/view/filian-spin-caption-filipino-filipino-boy-gif-4839661943905223696",
         27: "https://tenor.com/view/fire-anime-girl-anime-girl-fire-filian-gif-9366180792159601971",
-        28: "Me when people spam meows: https://tenor.com/view/filian-gif-12629105056256972783",
+        28: "Me when people spam meows: \nhttps://tenor.com/view/filian-gif-12629105056256972783",
         29: "https://tenor.com/view/neuro-sama-brush-xerxes-gif-228084778687217703",
         30: "https://tenor.com/view/neuro-sama-neuro-sama-wink-gif-9603454422488515145",
         31: "https://tenor.com/view/frog-head-neuro-wink-gif-6355964661669756927",
@@ -127,20 +127,20 @@ def randcat():
         12: "https://tenor.com/view/gopher-darius-screaming-excited-screaming-gif-9632076301582127705",
         13: "https://tenor.com/view/fnaf-five-nights-at-freddy's-gif-4059222196466761933",
         14: "https://tenor.com/view/circus-baby-cursed-fnaf-gif-18818734",
-        15: "(I was under orders, I had no choice) https://tenor.com/view/furry-hopon-gif-25273193",
+        15: "(I was under orders, I had no choice) \nhttps://tenor.com/view/furry-hopon-gif-25273193",
         16: "https://tenor.com/view/neurosama-explosion-vedal-gif-10953604243590119044",
-        17: "Me when rare gif: https://tenor.com/view/yippee-creature-meme-party-yay-gif-4844138631754730183",
+        17: "Me when rare gif: \nhttps://tenor.com/view/yippee-creature-meme-party-yay-gif-4844138631754730183",
         18: "https://tenor.com/view/gaslight-gatekeep-girlboss-gaslight-gatekeep-girlboss-freddy-fazbear-gif-25108236",
         19: "https://tenor.com/view/anime-waifu-dance-gif-25689550",
-        20: "Keep meowing :D https://tenor.com/view/niffty-niffty-hazbin-hazbin-hotel-jump-stim-gif-568824074923902625",
-        21: "Me as I keep adding these: https://tenor.com/view/ghostedvpn-hacker-cat-bongo-cat-keyboard-cat-hacker-gif-4373606555250453292",
+        20: "Keep meowing :D \nhttps://tenor.com/view/niffty-niffty-hazbin-hazbin-hotel-jump-stim-gif-568824074923902625",
+        21: "Me as I keep adding these: \nhttps://tenor.com/view/ghostedvpn-hacker-cat-bongo-cat-keyboard-cat-hacker-gif-4373606555250453292",
         22: "https://tenor.com/view/i-am-only-one-man's-girl-his-name-is-jesus-christ-belong-to-jesus-jesus-christ-not-until-mariage-gif-16757286860798336335",
         23: "https://tenor.com/view/matpat-game-theory-jumpscare-gif-17715187260881724719",
         24: "https://tenor.com/view/inscryption-stoat-total-misplay-card-gif-24910264",
         25: "https://tenor.com/view/pipe-bomb-miku-pipe-bomb-miku-silly-miku-silly-miku-pipe-bomb-gif-14794310888550215845",
         26: "https://tenor.com/view/anomalous-activities-gif-24758355",
         27: "https://tenor.com/view/jesus-ballin-mars-bars-gif-19910027",
-        28: "(Jk keep meowing) https://tenor.com/view/glory-wings-of-fire-wof-rainwing-skywing-gif-3751720425011732308",
+        28: "(Jk keep meowing) \nhttps://tenor.com/view/glory-wings-of-fire-wof-rainwing-skywing-gif-3751720425011732308",
         29: "HelpMySoulIsStuckInTheBot",
         30: "https://www.youtube.com/@victoriabrides7860",
         31: "https://tenor.com/view/murder-drones-khan-doorman-khan-murder-drones-doors-i-love-doors-gif-6067845957534950832",
@@ -150,7 +150,7 @@ def randcat():
         35: "https://tenor.com/view/war-gif-991293921595200744",
         36: "https://www.youtube.com/watch?v=KDTddjForAw",
         37: "https://www.youtube.com/watch?v=ZbcTZB6DuxY",
-        38: "Peak https://www.youtube.com/@Neurosama",
+        38: "Peak \nhttps://www.youtube.com/@Neurosama",
         39: "https://www.youtube.com/watch?v=Y0KrbiAtAJI"
     }
 
@@ -302,7 +302,7 @@ async def on_message(message):
         bot_msg = await message.channel.send(msg)
         if msg == "https://tenor.com/en-GB/view/filian-embed-fail-gif-27021762":
             await asyncio.sleep(5)
-            await bot_msg.edit(content="Wait, no... https://tenor.com/en-GB/view/filian-embed-fail-gif-27021762")
+            await bot_msg.edit(content="Wait, no... \nhttps://tenor.com/en-GB/view/filian-embed-fail-gif-27021762")
             await asyncio.sleep(5)
             await bot_msg.edit(content="https://tenor.com/view/filian-gif-18304054096777899760")
         if msg == "HelpMySoulIsStuckInTheBot":
@@ -316,7 +316,7 @@ async def on_message(message):
 # Commands
 @bot.tree.command(name="jarviscommand", description="Repeat your message")
 async def JarvisCommand(interaction: discord.Interaction, message: str):
-    await interaction.response.send_message(message)
+    await interaction.response.send_message(message, ephemeral=True)
 
 
 @bot.tree.command(name="setjarvi", description="set the count of jarvi")
@@ -324,28 +324,28 @@ async def SetJarvi(interaction: discord.Interaction, message: int):
     if str(interaction.user.id) in cool_ids:
         async with pool.acquire() as conn:
             await conn.execute("UPDATE jarvis_data SET count = $1 WHERE id = 1;", message)
-        await interaction.response.send_message(f"Jarvis count set to {message}")
+        await interaction.response.send_message(f"Jarvis count set to {message}", ephemeral=True)
     else:
-        await interaction.response.send_message("you don't have permission for that")
+        await interaction.response.send_message("you don't have permission for that", ephemeral=True)
 
 
 @bot.tree.command(name="jarviscoolcommand", description="cool command")
 async def JarvisCoolCommand(interaction: discord.Interaction, message: str):
     message += sans + DaddyD
     if str(interaction.user.id) in cool_ids:
-        await interaction.response.send_message(message)
+        await interaction.response.send_message(message, ephemeral=True)
 
 
 @bot.tree.command(name="checkperms", description="Check the bot's permissions in this channel")
 async def checkperms(interaction: discord.Interaction):
 
     
-    await interaction.response.send_message(f"Bot permissions in this channel:\n```{perms}```")
+    await interaction.response.send_message(f"Bot permissions in this channel:\n```{perms}```", ephemeral=True)
 
 
 @bot.tree.command(name="listfeatures", description="view feature list")
 async def listfeatures(interaction: discord.Interaction):
-    await interaction.response.send_message(features, ephemeral=true)
+    await interaction.response.send_message(features, ephemeral=True)
 
 
 @bot.tree.command(name="kys", description="stop the script from running")
@@ -354,34 +354,34 @@ async def kys(interaction: discord.Interaction):
         await interaction.response.send_message(r"\:(")
         await bot.close()
     else:
-        await interaction.response.send_message("frick off broski")
+        await interaction.response.send_message("frick off broski", ephemeral=True)
 
 
 @bot.tree.command(name="addbanned", description="add a word to the banned word list")
 async def addbanned(interaction: discord.Interaction, word: str):
     if str(interaction.user.id) in cool_ids:
         await add_banned_word(word)
-        await interaction.response.send_message(f"added {word} to the banned words")
+        await interaction.response.send_message(f"added {word} to the banned words", ephemeral=True)
     else:
-        await interaction.response.send_message("no perms")
+        await interaction.response.send_message("no perms", ephemeral=True)
 
 
 @bot.tree.command(name="removebanned", description="remove a word from the banned word list")
 async def removebanned(interaction: discord.Interaction, word: str):
     if str(interaction.user.id) in cool_ids:
         await remove_banned_word(word)
-        await interaction.response.send_message(f"removed {word} from banned words")
+        await interaction.response.send_message(f"removed {word} from banned words", ephemeral=True)
     else:
-        await interaction.response.send_message("no perms")
+        await interaction.response.send_message("no perms", ephemeral=True)
 
 
 @bot.tree.command(name="listbanned", description="list banned words")
 async def listbanned(interaction: discord.Interaction):
     banned_words = await load_banned_words()
     if not banned_words:
-        await interaction.response.send_message("there are no banned words")
+        await interaction.response.send_message("there are no banned words", ephemeral=True)
     else:
-        await interaction.response.send_message(f"Banned words: {', '.join(banned_words)}")
+        await interaction.response.send_message(f"Banned words: {', '.join(banned_words)}", ephemeral=True)
 
 @bot.tree.command(name="mewo", description="list cat noises")
 async def mewo(interaction: discord.Interaction):

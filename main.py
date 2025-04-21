@@ -17,7 +17,8 @@ token = os.getenv("DISCORD_TOKEN")
 if token is None:
     raise ValueError("token not found in environment variables")
 
-
+#permissions
+perms = "view channels - send messages - embed links - add reactions"
 
 # meowlist
 meows = [
@@ -57,8 +58,8 @@ also if someone says any sort of cat noise it sends a random cat gif from a sele
 /mewo - lists cat noises
 
 **FILTERING**
-if you use a word in the banned words list it gets deleted and you're told that word isn't allowed
-if you use a dead name the message gets deleted and the bot sends your message but with the deadname replaced
+if you use a word in the banned words list you're told to refrain from using that language in a reply and DM
+if you use a dead name you are DMed reminding you to not use that name and tells you the correct name
 (unless you say george because cameron is pissy like that)
 
 **UPTIME**
@@ -96,7 +97,8 @@ def randcat():
         18: "https://tenor.com/view/cat-internecion-cube-kirie-gif-20069182",
         19: "https://tenor.com/view/meme-cat-kitten-gif-17926206283727080180",
         20: "https://www.youtube.com/@Giraffeio99/videos",
-        21: "https://discord.gg/qmNy5wGJdQ"
+        21: "https://discord.gg/qmNy5wGJdQ",
+        22: "https://youtube.com/clip/UgkxxILnBNn2PxOe38mDHKUl1WxTQyUOqzbX?si=g6YdvIczfGcXi6JF"
     }
     raregifs = {
         1: "https://tenor.com/view/neuro-sama-ai-vtuber-suspicious-dubious-gif-10363453030530375437",
@@ -260,9 +262,8 @@ async def on_message(message):
 
     #! no badwords
     if not message.author.bot and any(word in lower_message for word in banned_words):
-        print(f"{message.author.display_name} said '{message.content}', deleted")
-        
         await message.author.send(f"{message.author.mention} That word isn't allowed and can be extremely triggering for people. please avoid using it in future.")
+        await message.reply(f"{message.author.mention}, that's quite hurtful and potentially triggering. please refrain from saying that")
         return
 
     #! no deadnaming
@@ -275,9 +276,9 @@ async def on_message(message):
         edited = re.sub(re.escape(deadname), corrected, edited, flags=re.IGNORECASE)
 
     if edited != content:
-        print(f"{message.author.display_name} used deadname: '{message.content}', replaced and resent")
         
         await message.author.send(f"please refrain from using that name, **{name}** is preferred")
+        await message.channel.send(f"please don't use that name, **{name}** is preferred")
 
     # mraow
     if any(word in lower_message for word in meows) and not message.author.bot:
@@ -321,11 +322,8 @@ async def JarvisCoolCommand(interaction: discord.Interaction, message: str):
 
 @bot.tree.command(name="checkperms", description="Check the bot's permissions in this channel")
 async def checkperms(interaction: discord.Interaction):
-    channel = interaction.channel
-    guild = interaction.guild
-    bot_member = guild.me
 
-    perms = channel.permissions_for(bot_member)
+    
     await interaction.response.send_message(f"Bot permissions in this channel:\n```{perms}```")
 
 

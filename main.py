@@ -31,7 +31,7 @@ meows = [
     "hiss", "hsss", "hssss", "murr", "murrr", "murmur",
     "purr", "purrr", "purrrr", "blp", "blep", "meoww", "brlp",
     "mmrow", "mmrrp", "meeeow", "meeeu", "meuuu", "eow", "owww",
-    "UwU", "Jamie", ":cat:",":smiley_cat:",":smile_cat:",":joy_cat:",":heart_eyes_cat:",
+    "uwu", "jamie", ":cat:",":smiley_cat:",":smile_cat:",":joy_cat:",":heart_eyes_cat:",
     ":smirk_cat:",":kissing_cat:",":scream_cat:",":crying_cat_face:",":pouting_cat:"
 ]
 
@@ -63,7 +63,8 @@ if you use a dead name you are DMed reminding you to not use that name and tells
 (unless you say george because cameron is pissy like that)
 
 **UPTIME**
-*should* be on at all times, but might not be due to transphobes spamming deadnames"""
+*should* be on at all times, but might not be due to transphobes spamming deadnames
+and Jarvis"""
 
 
 # deadnames

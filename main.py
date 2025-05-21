@@ -32,7 +32,8 @@ meows = [
     "purr", "purrr", "purrrr", "blp", "blep", "meoww", "brlp",
     "mmrow", "mmrrp", "meeeow", "meeeu", "meuuu", "eow", "owww",
     "uwu", "jamie", ":cat:",":smiley_cat:",":smile_cat:",":joy_cat:",":heart_eyes_cat:",
-    ":smirk_cat:",":kissing_cat:",":scream_cat:",":crying_cat_face:",":pouting_cat:"
+    ":smirk_cat:",":kissing_cat:",":scream_cat:",":crying_cat_face:",":pouting_cat:",
+    ":3"
 ]
 
 
